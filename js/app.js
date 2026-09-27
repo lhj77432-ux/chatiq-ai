@@ -733,13 +733,26 @@ function insertQuickReply(text) {
 }
 
 // ===== 產品目錄 =====
+var PRODUCT_ICON_INNER = {
+  P001: '<path d="M10 2v2"/><path d="M14 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/><path d="M6 2v2"/>',
+  P002: '<path d="M9 3h6"/><rect x="8" y="4" width="8" height="3" rx="1"/><path d="M9 7v12a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V7"/><path d="M9.5 12h5"/>',
+  P003: '<path d="M7 3h10l-1.1 16.4A2 2 0 0 1 13.9 21h-3.8a2 2 0 0 1-2-1.6L7 3Z"/><path d="M7.3 9h9.4"/>',
+  P004: '<path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M4 8h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M8.5 13h7"/>',
+  P005: '<path d="M9 4c.8 1 .8 2 0 3"/><path d="M12 3c1 1.3 1 2.7 0 4"/><path d="M15 4c-.8 1-.8 2 0 3"/><path d="M7 9h10v9a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3Z"/><path d="M10.5 14h3"/>',
+  P006: '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 1 0-4h3"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+  _default: '<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>'
+};
+function productIcon(p) {
+  var inner = PRODUCT_ICON_INNER[p.id] || PRODUCT_ICON_INNER._default;
+  return '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>';
+}
 function renderProducts() {
     var el = document.getElementById('productGrid');
     if (!el) return;
     el.innerHTML = products.map(function(p) {
         return '<div class="customer-card" style="cursor:default;">' +
             '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">' +
-            '<div style="width:48px;height:48px;background:var(--surface);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;">' + p.emoji + '</div>' +
+            '<div style="width:48px;height:48px;background:var(--accent-light);color:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;">' + productIcon(p) + '</div>' +
             '<div style="flex:1;"><div style="font-weight:600;font-size:14px;">' + p.name + '</div>' +
             '<div style="font-size:11px;color:var(--text-2);">' + p.category + '</div></div>' +
             '<div style="text-align:right;"><div style="font-weight:700;color:var(--accent);">HK$' + p.price + '</div>' +
@@ -754,7 +767,7 @@ function showAddProduct() {
     if (!name) return;
     var price = parseInt(prompt('價格（HK$）？') || '0');
     var desc = prompt('產品描述？') || '';
-    products.push({ id: 'P'+Date.now(), name: name, price: price, stock: 10, category: '其他', desc: desc, emoji: '📦' });
+    products.push({ id: 'P'+Date.now(), name: name, price: price, stock: 10, category: '其他', desc: desc });
     renderProducts();
     showToast('產品已新增');
 }
@@ -766,7 +779,7 @@ function sendProductToChat(productId) {
     var conv = conversations.find(function(c) { return c.id === currentConversation; });
     var now = new Date();
     var time = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-    var card = p.emoji + ' ' + p.name + '\n價格：HK$' + p.price + '\n' + p.desc + '\n庫存：' + p.stock + '件';
+    var card = p.name + '\n價格：HK$' + p.price + '\n' + p.desc + '\n庫存：' + p.stock + '件';
     conv.messages.push({ from: 'agent', text: card, time: time, tag: '產品' });
     conv.lastMessage = p.name; conv.lastTime = time;
     openConversation(currentConversation); renderChatList(); saveData();
