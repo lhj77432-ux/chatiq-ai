@@ -39,7 +39,7 @@ const AIEngine = {
             const h = (history||ctx.history).slice(-6).map(m => (m.role||'user')+': '+m.content).join('\n');
             const prompt = this.businessContext + '\n\n對話：\n' + h + '\n\n客戶：' + msg + '\n回覆：';
             const ctl = new AbortController();
-            const timer = setTimeout(()=>ctl.abort(), 12000);
+            const timer = setTimeout(()=>ctl.abort(), 5000);
             const res = await fetch('https://text.pollinations.ai/' + encodeURIComponent(prompt), {signal: ctl.signal});
             clearTimeout(timer);
             if (res.ok) {
