@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatIQ AI - WhatsApp 智能客服與客戶分析系統</title>
-    <link rel="stylesheet" href="css/style.css?v=9">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=11">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
 <body>
@@ -13,7 +16,7 @@
         <div class="login-box">
             <div class="login-logo">
                 <div class="logo-icon">
-                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
                     </svg>
                 </div>
@@ -41,7 +44,7 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo-icon-sm">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
                     </svg>
                 </div>
@@ -69,8 +72,8 @@
                     <span class="nav-label">營銷推廣</span>
                 </div>
                 <div class="nav-item" data-page="products" onclick="switchPage('products')">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                    產品目錄
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+                    <span class="nav-label">產品目錄</span>
                 </div>
                 <div class="nav-item" data-page="orders" onclick="switchPage('orders')">
                     <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
@@ -120,7 +123,7 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon green">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d7a3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                         </div>
                         <div class="stat-info">
                             <div class="stat-value" id="statMessages">1,247</div>
@@ -130,7 +133,7 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon blue">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004494" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                         </div>
                         <div class="stat-info">
                             <div class="stat-value" id="statCustomers">328</div>
@@ -140,7 +143,7 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon orange">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c93400" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                         </div>
                         <div class="stat-info">
                             <div class="stat-value" id="statRevenue">HK$ 87,420</div>
@@ -150,7 +153,7 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon purple">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                         </div>
                         <div class="stat-info">
                             <div class="stat-value" id="statConversion">34.2%</div>
@@ -173,7 +176,7 @@
 
                 <div class="dashboard-grid">
                     <div class="chart-card">
-                        <h3>高意向潛在客戶 <span style="font-size:12px;color:var(--text-tertiary);font-weight:400;">AI 識別</span></h3>
+                        <h3>高意向潛在客戶 <span style="font-size:12px;color:var(--text-3);font-weight:400;">AI 識別</span></h3>
                         <div class="lead-list" id="leadList"></div>
                     </div>
                     <div class="chart-card">
@@ -190,9 +193,9 @@
                         <div class="chat-search">
                             <input type="text" placeholder="搜尋對話..." id="chatSearch" oninput="filterChats()">
                         </div>
-                        <button class="btn-primary btn-sm" style="width:100%;margin-top:8px;" onclick="simulateNewCustomer()">+ 模擬新客戶來訊</button>
-                        <button class="btn-secondary btn-sm" id="autoReplyToggle" style="width:100%;margin-top:6px;" onclick="toggleAutoReply()">自動回覆：開啟</button>
-                        <button class="btn-secondary btn-sm" style="width:100%;margin-top:6px;" onclick="exportConversationsPDF()">匯出對話 PDF</button>
+                        <button class="btn-primary btn-sm" onclick="simulateNewCustomer()">+ 模擬新客戶來訊</button>
+                        <button class="btn-secondary btn-sm" id="autoReplyToggle" onclick="toggleAutoReply()">自動回覆：開啟</button>
+                        <button class="btn-secondary btn-sm" onclick="exportConversationsPDF()">匯出對話 PDF</button>
                         <div class="chat-tabs">
                             <span class="chat-tab active" onclick="filterChatTab('all',this)">全部</span>
                             <span class="chat-tab" onclick="filterChatTab('unread',this)">未讀</span>
@@ -211,8 +214,8 @@
                                 <p>從左側選擇對話</p>
                             </div>
                         </div>
-                        <div id="aiAssistPanel" style="display:none;padding:8px 16px;background:#f0f7ff;border-top:1px solid #cce0ff;font-size:12px;"><strong style="color:#0071e3;">AI 建議回覆：</strong><span id="aiAssistText"></span> <button class="btn-secondary btn-sm" style="margin-left:8px;" onclick="useAiAssist()">使用</button></div>
-                <div id="quickReplyPanel" style="display:none;padding:8px 16px;border-top:1px solid var(--border);background:var(--bg-secondary);flex-wrap:wrap;gap:6px;"></div>
+                        <div id="aiAssistPanel" style="display:none;"><strong style="color:#0071e3;">AI 建議回覆：</strong><span id="aiAssistText"></span> <button class="btn-secondary btn-sm" style="margin-left:8px;" onclick="useAiAssist()">使用</button></div>
+                <div id="quickReplyPanel" style="display:none;"></div>
                 <div class="chat-input-area" id="chatInputArea" style="display:none;">
                             <div class="ai-suggestions" id="aiSuggestions"></div>
                             <div class="chat-input-row">
@@ -301,7 +304,7 @@
         </div>
         <div class="form-group">
             <label>訊息內容</label>
-            <textarea id="broadcastMsg" rows="5" style="width:100%;padding:10px;border:1px solid var(--border-radius);border-radius:8px;font-size:14px;" placeholder="輸入要發送的推銷訊息..."></textarea>
+            <textarea id="broadcastMsg" rows="5" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:14px;" placeholder="輸入要發送的推銷訊息..."></textarea>
         </div>
         <button class="btn-primary" onclick="sendBroadcast()">發送群發訊息</button>
         <div id="broadcastResult" style="margin-top:16px;"></div>
@@ -344,7 +347,7 @@
                         <div id="funnelChart" class="chart-container"></div>
                     </div>
                     <div class="chart-card">
-                        <h3>客戶滿意度趨勢 <span style="font-size:12px;color:var(--text-tertiary);font-weight:400;">AI 情緒分析</span></h3>
+                        <h3>客戶滿意度趨勢 <span style="font-size:12px;color:var(--text-3);font-weight:400;">AI 情緒分析</span></h3>
                         <div id="sentimentChart" class="chart-container"></div>
                     </div>
                 </div>
@@ -359,7 +362,7 @@
                     </div>
                 </div>
                 <div class="chart-card">
-                    <h3>每週經營簡報 <span style="font-size:12px;color:var(--text-tertiary);font-weight:400;">AI 自動生成</span></h3>
+                    <h3>每週經營簡報 <span style="font-size:12px;color:var(--text-3);font-weight:400;">AI 自動生成</span></h3>
                     <div class="weekly-report" id="weeklyReport"></div>
                 </div>
             </div>
@@ -498,74 +501,8 @@
     <!-- Toast 提示 -->
     <div id="toast" class="toast" style="display:none;"></div>
 
-    <style>
-        body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(1200px 600px at 80% -10%, rgba(94,106,210,0.08), transparent), radial-gradient(900px 500px at -10% 110%, rgba(124,58,237,0.06), transparent); pointer-events: none; z-index: 0; }
-        .main-content { position: relative; z-index: 1; }
-        .stat-card, .chart-card { position: relative; overflow: hidden; transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), border-color 0.2s, box-shadow 0.2s; }
-        .stat-card::after, .chart-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(94,106,210,0.1), transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-        .stat-card:hover::after, .chart-card:hover::after { opacity: 1; }
-        .stat-card:hover { border-color: rgba(94,106,210,0.3); box-shadow: 0 8px 24px rgba(94,106,210,0.1); }
-        .chart-card:hover { border-color: rgba(94,106,210,0.2); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        .page.active .stat-card, .page.active .chart-card { animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both; }
-        .page.active .stat-card:nth-child(1) { animation-delay: 0.02s; }
-        .page.active .stat-card:nth-child(2) { animation-delay: 0.06s; }
-        .page.active .stat-card:nth-child(3) { animation-delay: 0.10s; }
-        .page.active .stat-card:nth-child(4) { animation-delay: 0.14s; }
-        .nav-item { position: relative; overflow: hidden; }
-        .nav-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(0); transition: transform 0.2s; }
-        .nav-item:hover::before, .nav-item.active::before { transform: scaleY(1); }
-        .btn-primary { position: relative; overflow: hidden; transition: transform 0.15s; }
-        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); transition: left 0.5s; }
-        .btn-primary:hover::before { left: 100%; }
-        .stat-card:hover .stat-value { color: var(--accent); }
-        
-        @keyframes msgIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .msg { animation: msgIn 0.3s cubic-bezier(0.4,0,0.2,1); }
-        .lead-item { position: relative; }
-        .lead-item::after { content: '\2192'; position: absolute; right: 12px; opacity: 0; transform: translateX(-4px); transition: all 0.2s; color: var(--accent); }
-        .lead-item:hover::after { opacity: 1; transform: translateX(0); }
-        .data-table tbody tr { position: relative; }
-        .data-table tbody tr::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 0.15s; }
-        .data-table tbody tr:hover::before { opacity: 1; }
-        .lead-avatar, .customer-avatar, .chat-conv-avatar, .user-avatar { transition: transform 0.2s; }
-        .lead-item:hover .lead-avatar, .customer-card:hover .customer-avatar { transform: scale(1.08); }
-        @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
-        .toast { animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1); }
-    </style>
-    <script>
-    (function() {
-        
-        var tx=0, ty=0;
-        document.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; });
-        (function loop(){  requestAnimationFrame(loop); })();
-        document.addEventListener('mousemove', function(e){
-            document.querySelectorAll('.stat-card, .chart-card').forEach(function(card){
-                var r = card.getBoundingClientRect();
-                card.style.setProperty('--mx', ((e.clientX-r.left)/r.width)*100+'%');
-                card.style.setProperty('--my', ((e.clientY-r.top)/r.height)*100+'%');
-            });
-        });
-        document.querySelectorAll('.stat-card').forEach(function(card){
-            card.addEventListener('mousemove', function(e){
-                var r = card.getBoundingClientRect();
-                var x=(e.clientX-r.left)/r.width-0.5, y=(e.clientY-r.top)/r.height-0.5;
-                card.style.transform='translateY(-2px) rotateX('+(-y*4)+'deg) rotateY('+(x*4)+'deg)';
-            });
-            card.addEventListener('mouseleave', function(){ card.style.transform=''; });
-        });
-        document.querySelectorAll('.btn-primary').forEach(function(btn){
-            btn.addEventListener('mousemove', function(e){
-                var r=btn.getBoundingClientRect();
-                btn.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.15)+'px, '+((e.clientY-r.top-r.height/2)*0.15)+'px)';
-            });
-            btn.addEventListener('mouseleave', function(){ btn.style.transform=''; });
-        });
-    
-    })();
-    </script>
-    <script src="js/mock-data.js?v=9"></script>
-    <script src="js/ai-engine.js?v=9"></script>
-    <script src="js/app.js?v=9"></script>
+    <script src="js/mock-data.js?v=11"></script>
+    <script src="js/ai-engine.js?v=11"></script>
+    <script src="js/app.js?v=11"></script>
 </body>
 </html>

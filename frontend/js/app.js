@@ -94,9 +94,9 @@ function renderTrendChart() {
             { type: 'value', name: '金額', position: 'right' }
         ],
         series: [
-            { name: '對話數', type: 'bar', data: trendData.messages, itemStyle: { color: '#64d2ff', borderRadius: [6,6,0,0] } },
-            { name: '成交數', type: 'line', data: trendData.conversions, itemStyle: { color: '#30d158' }, smooth: true, lineStyle: { width: 3 } },
-            { name: '營業額', type: 'line', yAxisIndex: 1, data: trendData.revenue, itemStyle: { color: '#ff9f0a' }, smooth: true, lineStyle: { width: 3 } }
+            { name: '對話數', type: 'bar', data: trendData.messages, itemStyle: { color: '#818cf8', borderRadius: [6,6,0,0] } },
+            { name: '成交數', type: 'line', data: trendData.conversions, itemStyle: { color: '#16a34a' }, smooth: true, lineStyle: { width: 3 } },
+            { name: '營業額', type: 'line', yAxisIndex: 1, data: trendData.revenue, itemStyle: { color: '#d97706' }, smooth: true, lineStyle: { width: 3 } }
         ]
     });
 }
@@ -116,10 +116,10 @@ function renderPieChart() {
             label: { formatter: '{b}: {c}人 ({d}%)' },
             itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
             data: [
-                { value: 12, name: 'A級', itemStyle: { color: '#30d158' } },
-                { value: 45, name: 'B級', itemStyle: { color: '#0071e3' } },
-                { value: 210, name: 'C級', itemStyle: { color: '#aeaeb2' } },
-                { value: 61, name: '潛在客戶', itemStyle: { color: '#ff9f0a' } }
+                { value: 12, name: 'A級', itemStyle: { color: '#4f46e5' } },
+                { value: 45, name: 'B級', itemStyle: { color: '#0891b2' } },
+                { value: 210, name: 'C級', itemStyle: { color: '#a1a1aa' } },
+                { value: 61, name: '潛在客戶', itemStyle: { color: '#ea580c' } }
             ]
         }]
     });
@@ -141,7 +141,7 @@ function renderAlertList() {
     el.innerHTML = alerts.map(function(a) {
         return '<div class="alert-item ' + a.type + '">' +
             '<div><div style="font-size:13px;">' + a.text + '</div>' +
-            '<div style="font-size:11px;color:var(--text-tertiary);margin-top:2px;">' + a.time + '</div></div></div>';
+            '<div style="font-size:11px;color:var(--text-3);margin-top:2px;">' + a.time + '</div></div></div>';
     }).join('');
 }
 
@@ -197,7 +197,7 @@ function openConversation(convId) {
         '<div style="display:flex;align-items:center;gap:10px;">' +
         '<div class="chat-conv-avatar" style="width:32px;height:32px;font-size:12px;">' + conv.customerName.charAt(0) + '</div>' +
         '<div><div>' + conv.customerName + '</div>' +
-        '<div style="font-size:11px;color:var(--text-secondary);font-weight:400;">' + statusText + '</div></div></div>' +
+        '<div style="font-size:11px;color:var(--text-2);font-weight:400;">' + statusText + '</div></div></div>' +
         '<button class="btn-secondary btn-sm" onclick="viewCustomerFromChat(\'' + conv.customerId + '\')">查看客戶資料</button>';
 
     var msgsEl = document.getElementById('chatMessages');
@@ -370,10 +370,10 @@ function renderCustomers() {
             '<div class="customer-phone">' + c.phone + '</div></div>' +
             '<span class="customer-grade ' + gradeClasses[c.grade] + '">' + gradeLabels[c.grade] + '</span></div>' +
             '<div style="display:flex;align-items:center;gap:6px;margin:8px 0 4px;">' +
-            '<span style="font-size:11px;color:var(--text-secondary);">意向</span>' +
-            '<span style="font-size:11px;font-weight:600;color:' + (c.leadScore>=80?'#ff453a':c.leadScore>=60?'#ff9f0a':'#8e8e93') + ';">' + (c.intentCategory||'未分級') + '</span>' +
-            '<div style="flex:1;height:4px;background:#e5e5ea;border-radius:2px;overflow:hidden;">' +
-            '<div style="width:' + (c.leadScore||50) + '%;height:100%;background:' + (c.leadScore>=80?'#ff453a':c.leadScore>=60?'#ff9f0a':'#8e8e93') + ';border-radius:2px;"></div></div>' +
+            '<span style="font-size:11px;color:var(--text-2);">意向</span>' +
+            '<span style="font-size:11px;font-weight:600;color:' + (c.leadScore>=80?'#dc2626':c.leadScore>=60?'#ea580c':'#a1a1aa') + ';">' + (c.intentCategory||'未分級') + '</span>' +
+            '<div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;">' +
+            '<div style="width:' + (c.leadScore||50) + '%;height:100%;background:' + (c.leadScore>=80?'#dc2626':c.leadScore>=60?'#ea580c':'#a1a1aa') + ';border-radius:2px;"></div></div>' +
             '<span style="font-size:11px;font-weight:600;">' + (c.leadScore||50) + '</span></div>' +
             '<div class="customer-meta">' +
             '<div class="customer-meta-item">消費額<strong>HK$ ' + c.totalSpent.toLocaleString() + '</strong></div>' +
@@ -408,10 +408,10 @@ function filterCustomers() {
             '<div class="customer-phone">' + c.phone + '</div></div>' +
             '<span class="customer-grade ' + gradeClasses[c.grade] + '">' + gradeLabels[c.grade] + '</span></div>' +
             '<div style="display:flex;align-items:center;gap:6px;margin:8px 0 4px;">' +
-            '<span style="font-size:11px;color:var(--text-secondary);">意向</span>' +
-            '<span style="font-size:11px;font-weight:600;color:' + (c.leadScore>=80?'#ff453a':c.leadScore>=60?'#ff9f0a':'#8e8e93') + ';">' + (c.intentCategory||'未分級') + '</span>' +
-            '<div style="flex:1;height:4px;background:#e5e5ea;border-radius:2px;overflow:hidden;">' +
-            '<div style="width:' + (c.leadScore||50) + '%;height:100%;background:' + (c.leadScore>=80?'#ff453a':c.leadScore>=60?'#ff9f0a':'#8e8e93') + ';border-radius:2px;"></div></div>' +
+            '<span style="font-size:11px;color:var(--text-2);">意向</span>' +
+            '<span style="font-size:11px;font-weight:600;color:' + (c.leadScore>=80?'#dc2626':c.leadScore>=60?'#ea580c':'#a1a1aa') + ';">' + (c.intentCategory||'未分級') + '</span>' +
+            '<div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;">' +
+            '<div style="width:' + (c.leadScore||50) + '%;height:100%;background:' + (c.leadScore>=80?'#dc2626':c.leadScore>=60?'#ea580c':'#a1a1aa') + ';border-radius:2px;"></div></div>' +
             '<span style="font-size:11px;font-weight:600;">' + (c.leadScore||50) + '</span></div>' +
             '<div class="customer-meta">' +
             '<div class="customer-meta-item">消費額<strong>HK$ ' + c.totalSpent.toLocaleString() + '</strong></div>' +
@@ -444,7 +444,7 @@ function openCustomerDetail(customerId) {
         '<p>' + c.phone + ' | ' + c.location + ' | 累計消費 HK$' + c.totalSpent.toLocaleString() + '</p></div>' +
         '<div class="customer-detail-section"><h4>AI 客戶分析</h4>' +
         '<div class="ai-insight">' + c.aiInsight + '</div>' +
-        '<p style="font-size:12px;color:var(--text-secondary);">情緒狀態：' + (sentimentMap[c.sentiment] || '一般') + '</p></div>' +
+        '<p style="font-size:12px;color:var(--text-2);">情緒狀態：' + (sentimentMap[c.sentiment] || '一般') + '</p></div>' +
         '<div class="customer-detail-section"><h4>標籤</h4><div class="customer-tags">' + tagsHtml + '</div></div>' +
         '<div class="customer-detail-section"><h4>跟進建議（AI 生成）</h4>' +
         '<div class="ai-insight">' + AIEngine.generateFollowUp(customerId) + '</div></div>' +
@@ -491,7 +491,7 @@ function renderOrders() {
     document.getElementById('orderSummary').innerHTML = '共 ' + list.length + ' 筆訂單，總額 <strong>HK$ ' + total.toLocaleString() + '</strong>';
 
     document.getElementById('orderTableBody').innerHTML = list.map(function(o) {
-        var aiTag = o.aiGenerated ? '<span style="font-size:10px;background:#ede9fe;color:#7c3aed;padding:1px 5px;border-radius:6px;">AI</span>' : '';
+        var aiTag = o.aiGenerated ? '<span style="font-size:10px;background:var(--accent-light);color:var(--accent);padding:1px 5px;border-radius:6px;">AI</span>' : '';
         var action = '';
         if (o.status === 'pending') action = '<button class="btn-secondary btn-sm" onclick="updateOrderStatus(\'' + o.id + '\',\'confirmed\')">確認</button>';
         if (o.status === 'confirmed') action = '<button class="btn-secondary btn-sm" onclick="updateOrderStatus(\'' + o.id + '\',\'completed\')">完成</button>';
@@ -500,7 +500,7 @@ function renderOrders() {
             '<td>' + o.product + ' ' + aiTag + '</td>' +
             '<td><strong>HK$ ' + o.amount.toLocaleString() + '</strong></td>' +
             '<td><span class="order-status ' + statusClasses[o.status] + '">' + statusLabels[o.status] + '</span></td>' +
-            '<td style="font-size:12px;color:var(--text-secondary);">' + o.time + '</td>' +
+            '<td style="font-size:12px;color:var(--text-2);">' + o.time + '</td>' +
             '<td>' + action + '</td></tr>';
     }).join('');
 }
@@ -538,11 +538,11 @@ function renderFunnelChart() {
             label: { formatter: '{b}\n{c}人 ({d}%)' },
             itemStyle: { borderRadius: 4 },
             data: [
-                { value: 328, name: '總諮詢客戶', itemStyle: { color: '#64d2ff' } },
-                { value: 186, name: '有意向', itemStyle: { color: '#0071e3' } },
-                { value: 112, name: '報價/試用', itemStyle: { color: '#30d158' } },
-                { value: 78, name: '確認訂單', itemStyle: { color: '#ff9f0a' } },
-                { value: 56, name: '完成付款', itemStyle: { color: '#bf5af2' } }
+                { value: 328, name: '總諮詢客戶', itemStyle: { color: '#c7d2fe' } },
+                { value: 186, name: '有意向', itemStyle: { color: '#818cf8' } },
+                { value: 112, name: '報價/試用', itemStyle: { color: '#6366f1' } },
+                { value: 78, name: '確認訂單', itemStyle: { color: '#4f46e5' } },
+                { value: 56, name: '完成付款', itemStyle: { color: '#4338ca' } }
             ]
         }]
     });
@@ -560,9 +560,9 @@ function renderSentimentChart() {
         xAxis: { type: 'category', data: trendData.dates },
         yAxis: { type: 'value', name: '佔比(%)', max: 100 },
         series: [
-            { name: '滿意', type: 'line', stack: 'total', areaStyle: {}, smooth: true, data: [65, 68, 70, 72, 75, 78, 80], itemStyle: { color: '#30d158' } },
-            { name: '中性', type: 'line', stack: 'total', areaStyle: {}, smooth: true, data: [25, 23, 22, 20, 18, 16, 14], itemStyle: { color: '#ff9f0a' } },
-            { name: '不滿', type: 'line', stack: 'total', areaStyle: {}, smooth: true, data: [10, 9, 8, 8, 7, 6, 6], itemStyle: { color: '#ff453a' } }
+            { name: '滿意', type: 'line', stack: 'total', areaStyle: {}, smooth: true, data: [65, 68, 70, 72, 75, 78, 80], itemStyle: { color: '#16a34a' } },
+            { name: '中性', type: 'line', stack: 'total', areaStyle: {}, smooth: true, data: [25, 23, 22, 20, 18, 16, 14], itemStyle: { color: '#d97706' } },
+            { name: '不滿', type: 'line', stack: 'total', areaStyle: {}, smooth: true, data: [10, 9, 8, 8, 7, 6, 6], itemStyle: { color: '#dc2626' } }
         ]
     });
 }
@@ -580,10 +580,10 @@ function renderRegionChart() {
             label: { formatter: '{b}: {c}人' },
             itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
             data: [
-                { value: 142, name: '香港島', itemStyle: { color: '#0071e3' } },
-                { value: 108, name: '九龍', itemStyle: { color: '#30d158' } },
-                { value: 65, name: '新界', itemStyle: { color: '#ff9f0a' } },
-                { value: 13, name: '澳門/內地', itemStyle: { color: '#bf5af2' } }
+                { value: 142, name: '香港島', itemStyle: { color: '#4f46e5' } },
+                { value: 108, name: '九龍', itemStyle: { color: '#16a34a' } },
+                { value: 65, name: '新界', itemStyle: { color: '#d97706' } },
+                { value: 13, name: '澳門/內地', itemStyle: { color: '#a1a1aa' } }
             ]
         }]
     });
@@ -592,7 +592,7 @@ function renderRegionChart() {
 function renderHotQuestions() {
     var el = document.getElementById('hotQuestions');
     el.innerHTML = hotQuestions.map(function(q, i) {
-        var rankCls = i < 3 ? 'top' + (i + 1) : '';
+        var rankCls = i < 3 ? 'top' : '';
         return '<div class="question-item"><div class="question-rank ' + rankCls + '">' + (i + 1) +
             '</div><div class="question-text">' + q.text + '</div>' +
             '<div class="question-count">' + q.count + ' 次</div></div>';
@@ -607,20 +607,20 @@ function renderWeeklyReport() {
 
     var html = '<h4>AI 經營分析與行動建議</h4>';
     html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;">';
-    html += '<div style="padding:12px;background:#f0f7ff;border-radius:8px;border-left:3px solid #0071e3;"><strong>營運概況</strong><br><small>本週對話 ' + convCount + ' 則，AI 回覆率 ' + aiRate + '%，節省 ' + hoursSaved + ' 小時</small></div>';
-    html += '<div style="padding:12px;background:#f0fff4;border-radius:8px;border-left:3px solid #30d158;"><strong>成交表現</strong><br><small>轉化率 ' + convRate + '%，營業額 HK$' + revenue.toLocaleString() + '（+' + revenueGrowth + '%）</small></div>';
+    html += '<div style="padding:12px;background:var(--accent-light);border-radius:8px;border-left:3px solid var(--accent);"><strong>營運概況</strong><br><small>本週對話 ' + convCount + ' 則，AI 回覆率 ' + aiRate + '%，節省 ' + hoursSaved + ' 小時</small></div>';
+    html += '<div style="padding:12px;background:var(--success-light);border-radius:8px;border-left:3px solid var(--success);"><strong>成交表現</strong><br><small>轉化率 ' + convRate + '%，營業額 HK$' + revenue.toLocaleString() + '（+' + revenueGrowth + '%）</small></div>';
     html += '</div>';
 
     html += '<div style="margin:16px 0;"><strong style="font-size:14px;">AI 建議行動：</strong></div>';
     html += '<div style="display:flex;flex-direction:column;gap:8px;">';
-    html += '<div style="padding:10px;background:#fff8e1;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">1</span><div><strong>優化歡迎訊息</strong><br><small>客戶最常問「' + topQ + '」和「' + secondQ + '」，建議在新客進來的第一句就主動提供，可減少 30% 重複問答，預估提升轉化率 5-8%。</small></div></div>';
-    html += '<div style="padding:10px;background:#f0f7ff;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">2</span><div><strong>跟進 ' + hotLeads + ' 位高意向客戶</strong><br><small>系統識別 ' + hotLeads + ' 位客戶詢問後未下單，建議今日內發送限時優惠（9折券），製造緊迫感。預估轉化其中 1-2 位。</small></div></div>';
-    html += '<div style="padding:10px;background:#fff0f0;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">3</span><div><strong>挽回 ' + atRisk + ' 位流失風險客戶</strong><br><small>有客戶超過 20 天無互動，建議發送「我們想念你」專屬優惠（85折），附新品推薦。</small></div></div>';
-    html += '<div style="padding:10px;background:#f5f0ff;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">4</span><div><strong>優化熱門問題回覆</strong><br><small>「' + topQ + '」被問了 186 次，建議把它設為快捷回覆按鈕，一鍵發送，提升回覆速度。</small></div></div>';
-    html += '<div style="padding:10px;background:#f0fff4;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">5</span><div><strong>投放建議</strong><br><small>香港島客戶最多（142人），建議在銅鑼灣門市附近加強 WhatsApp 廣告投放，回報率最高。</small></div></div>';
+    html += '<div style="padding:10px;background:var(--warning-light);border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;">1</span><div><strong>優化歡迎訊息</strong><br><small>客戶最常問「' + topQ + '」和「' + secondQ + '」，建議在新客進來的第一句就主動提供，可減少 30% 重複問答，預估提升轉化率 5-8%。</small></div></div>';
+    html += '<div style="padding:10px;background:var(--accent-light);border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;">2</span><div><strong>跟進 ' + hotLeads + ' 位高意向客戶</strong><br><small>系統識別 ' + hotLeads + ' 位客戶詢問後未下單，建議今日內發送限時優惠（9折券），製造緊迫感。預估轉化其中 1-2 位。</small></div></div>';
+    html += '<div style="padding:10px;background:var(--danger-light);border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;">3</span><div><strong>挽回 ' + atRisk + ' 位流失風險客戶</strong><br><small>有客戶超過 20 天無互動，建議發送「我們想念你」專屬優惠（85折），附新品推薦。</small></div></div>';
+    html += '<div style="padding:10px;background:#f5f3ff;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;">4</span><div><strong>優化熱門問題回覆</strong><br><small>「' + topQ + '」被問了 186 次，建議把它設為快捷回覆按鈕，一鍵發送，提升回覆速度。</small></div></div>';
+    html += '<div style="padding:10px;background:var(--success-light);border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;">5</span><div><strong>投放建議</strong><br><small>香港島客戶最多（142人），建議在銅鑼灣門市附近加強 WhatsApp 廣告投放，回報率最高。</small></div></div>';
     html += '</div>';
 
-    html += '<div style="margin-top:16px;padding:12px;background:var(--bg-secondary);border-radius:8px;"><strong>下週預測</strong><br><small>按目前趨勢，下週對話量約 ' + Math.round(convCount*1.1) + ' 則，營業額預估 HK$' + Math.round(revenue*1.15).toLocaleString() + '。建議庫存準備提升 15%。</small></div>';
+    html += '<div style="margin-top:16px;padding:12px;background:var(--surface);border-radius:8px;"><strong>下週預測</strong><br><small>按目前趨勢，下週對話量約 ' + Math.round(convCount*1.1) + ' 則，營業額預估 HK$' + Math.round(revenue*1.15).toLocaleString() + '。建議庫存準備提升 15%。</small></div>';
 
     document.getElementById('weeklyReport').innerHTML = html;
 }
@@ -722,7 +722,7 @@ function sendBroadcast() {
     if (seg !== 'all') list = customers.filter(function(c){return c.grade===seg;});
     showToast('正在發送給 ' + list.length + ' 位客戶...');
     setTimeout(function() {
-        document.getElementById('broadcastResult').innerHTML = '<div style="padding:16px;background:#f0fff4;border-radius:8px;border:1px solid #30d158;">✅ 已成功發送 ' + list.length + ' 則訊息<br><small style="color:var(--text-secondary);">狀態：已送達 ' + list.length + '，已讀 ' + Math.floor(list.length*0.7) + '</small></div>';
+        document.getElementById('broadcastResult').innerHTML = '<div style="padding:16px;background:var(--success-light);border-radius:8px;border:1px solid var(--success-border);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>已成功發送 ' + list.length + ' 則訊息<br><small style="color:var(--text-2);">狀態：已送達 ' + list.length + '，已讀 ' + Math.floor(list.length*0.7) + '</small></div>';
         showToast('群發完成！');
     }, 1500);
 }
@@ -739,12 +739,12 @@ function renderProducts() {
     el.innerHTML = products.map(function(p) {
         return '<div class="customer-card" style="cursor:default;">' +
             '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">' +
-            '<div style="width:48px;height:48px;background:var(--bg-secondary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;">' + p.emoji + '</div>' +
+            '<div style="width:48px;height:48px;background:var(--surface);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;">' + p.emoji + '</div>' +
             '<div style="flex:1;"><div style="font-weight:600;font-size:14px;">' + p.name + '</div>' +
-            '<div style="font-size:11px;color:var(--text-secondary);">' + p.category + '</div></div>' +
-            '<div style="text-align:right;"><div style="font-weight:700;color:#0071e3;">HK$' + p.price + '</div>' +
-            '<div style="font-size:10px;color:' + (p.stock<20?'#ff453a':'#30d158') + ';">庫存 ' + p.stock + '</div></div></div>' +
-            '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">' + p.desc + '</div>' +
+            '<div style="font-size:11px;color:var(--text-2);">' + p.category + '</div></div>' +
+            '<div style="text-align:right;"><div style="font-weight:700;color:var(--accent);">HK$' + p.price + '</div>' +
+            '<div style="font-size:10px;color:' + (p.stock<20?'#dc2626':'#16a34a') + ';">庫存 ' + p.stock + '</div></div></div>' +
+            '<div style="font-size:12px;color:var(--text-2);margin-bottom:8px;">' + p.desc + '</div>' +
             '<button class="btn-secondary btn-sm" style="width:100%;" onclick="sendProductToChat(\'' + p.id + '\')">發送給客戶</button></div>';
     }).join('');
 }
