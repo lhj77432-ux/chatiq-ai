@@ -21,17 +21,17 @@ body {
     background: var(--bg-primary); color: var(--text-primary);
     font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased;
 }
-.login-container {
+#loginPage {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     background: linear-gradient(135deg, #0c1222 0%, #1a2744 50%, #0c1222 100%);
     position: relative; overflow: hidden;
 }
-.login-container::before {
+#loginPage::before {
     content: ''; position: absolute; width: 600px; height: 600px;
     background: radial-gradient(circle, rgba(79,110,247,0.15) 0%, transparent 70%);
     top: -200px; right: -100px; border-radius: 50%;
 }
-.login-container::after {
+#loginPage::after {
     content: ''; position: absolute; width: 400px; height: 400px;
     background: radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%);
     bottom: -100px; left: -100px; border-radius: 50%;
@@ -75,7 +75,7 @@ body {
 }
 .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
 .btn-sm { padding: 6px 12px; font-size: 12px; }
-.app-container { display: flex; min-height: 100vh; }
+#app { display: flex; min-height: 100vh; }
 .sidebar {
     width: 240px; background: var(--sidebar-bg); color: var(--sidebar-text);
     display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100;
@@ -307,9 +307,7 @@ body {
 #quickReplyPanel { padding: 8px 16px; border-top: 1px solid var(--border); background: var(--bg-primary); display: none; flex-wrap: wrap; gap: 6px; }
 #aiAssistPanel { padding: 8px 16px; background: #f0f7ff; border-top: 1px solid #cce0ff; font-size: 12px; display: none; }
 
-/* ===== Login Page ===== */
-#loginPage { display: flex; }
-#appContainer { display: none; }
+
 
 /* ===== Sidebar Mobile ===== */
 .sidebar.open { transform: translateX(0); }
