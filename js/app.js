@@ -230,31 +230,68 @@ function aiGenerateReply() {
     showToast('AI 已生成回覆，請確認後發送');
 }
 
+var autoReplyOn = true;
 function sendMessage() {
     var input = document.getElementById('chatInput');
     var text = input.value.trim();
     if (!text || !currentConversation) return;
-
     var conv = conversations.find(function(c) { return c.id === currentConversation; });
     var now = new Date();
-    var time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-
+    var time = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
     conv.messages.push({ from: 'agent', text: text, time: time });
-    conv.lastMessage = text;
-    conv.lastTime = time;
+    conv.lastMessage = text; conv.lastTime = time;
     input.value = '';
-
-    openConversation(currentConversation);
-    renderChatList();
-
+    openConversation(currentConversation); renderChatList(); saveData();
     setTimeout(function() {
-        var autoReplies = ['好的，多謝！', '那我幾時可以收到？', 'OK，我考慮下', '好呀，麻煩你', '收到，謝謝'];
-        var autoReply = autoReplies[Math.floor(Math.random() * autoReplies.length)];
-        conv.messages.push({ from: 'customer', text: autoReply, time: time });
-        conv.lastMessage = autoReply;
-        openConversation(currentConversation);
-        renderChatList();
+        var replies = ['你好，請問保溫壺幾錢？','有冇優惠？','幾時送到？','你們店在哪？','買兩件有折扣嗎？','我考慮下先'];
+        var r = replies[Math.floor(Math.random()*replies.length)];
+        conv.messages.push({ from: 'customer', text: r, time: time });
+        conv.lastMessage = r; openConversation(currentConversation); renderChatList(); saveData();
+        if (autoReplyOn) {
+            showToast('AI 自動回覆中...');
+            setTimeout(async function() {
+                var ai = await AIEngine.generateReplyAsync(r, conv.customerId);
+                var t2 = new Date();
+                var tm = t2.getHours().toString().padStart(2,'0')+':'+t2.getMinutes().toString().padStart(2,'0');
+                conv.messages.push({ from: 'agent', text: ai, time: tm, tag: 'AI' });
+                conv.lastMessage = ai; conv.lastTime = tm;
+                openConversation(currentConversation); renderChatList(); saveData();
+            }, 2000);
+        }
     }, 1500);
+}
+function simulateNewCustomer() {
+    var samples = [
+        { name: '陳小姐', msg: '你好，保溫壺幾錢？' },
+        { name: 'Mr. Lee', msg: 'Hi, is the coffee cup in stock?' },
+        { name: '黃生', msg: '請問幾點開門？' },
+        { name: 'Mary', msg: '送貨要幾耐？' }
+    ];
+    var s = samples[Math.floor(Math.random()*samples.length)];
+    var newId = 'conv'+Date.now();
+    var now = new Date();
+    var time = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    var nc = { id: newId, customerId: 'C'+Date.now(), customerName: s.name, lastMessage: s.msg, lastTime: time, unread: 1, status: 'ai', messages: [{from:'customer',text:s.msg,time:time}] };
+    conversations.unshift(nc);
+    renderChatList(); updateUnreadBadge(); saveData();
+    showToast('新客戶 '+s.name+' 來訊，AI 自動回覆中...');
+    if (autoReplyOn) {
+        setTimeout(async function() {
+            var ai = await AIEngine.generateReplyAsync(s.msg, nc.customerId);
+            var t2 = new Date();
+            var tm = t2.getHours().toString().padStart(2,'0')+':'+t2.getMinutes().toString().padStart(2,'0');
+            nc.messages.push({from:'agent',text:ai,time:tm,tag:'AI'});
+            nc.lastMessage = ai; nc.lastTime = tm; nc.unread = 0;
+            renderChatList(); updateUnreadBadge(); saveData();
+            showToast('AI 已自動回覆 '+s.name);
+        }, 2500);
+    }
+}
+function toggleAutoReply() {
+    autoReplyOn = !autoReplyOn;
+    showToast(autoReplyOn ? 'AI 自動回覆已開啟' : 'AI 自動回覆已關閉');
+    var el = document.getElementById('autoReplyToggle');
+    if (el) el.textContent = autoReplyOn ? '自動回覆：開啟' : '自動回覆：關閉';
 }
 
 function addTag(tag) {
