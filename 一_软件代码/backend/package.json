@@ -1,0 +1,13 @@
+{
+  "name": "chatiq-ai-server",
+  "version": "1.0.0",
+  "description": "ChatIQ AI - WhatsApp 智能客服與客戶分析系統",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

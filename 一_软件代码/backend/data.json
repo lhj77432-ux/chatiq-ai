@@ -1,0 +1,51 @@
+{
+  "customers": [],
+  "conversations": [
+    {
+      "id": "test1",
+      "customer_id": "C001",
+      "status": "ai",
+      "last_message": "您好！已收到您訊息，專業人員會盡快回覆。",
+      "last_time": "27/9/2026 上午10:50:09"
+    },
+    {
+      "id": "demo",
+      "customer_id": "C001",
+      "status": "ai",
+      "last_message": "收到！緊急問題可打門市電話。",
+      "last_time": "27/9/2026 上午10:50:51"
+    }
+  ],
+  "messages": [
+    {
+      "conversation_id": "test1",
+      "from_type": "customer",
+      "text": "??,???????",
+      "is_ai": 0,
+      "sent_at": "2026-09-27T02:50:09.900Z"
+    },
+    {
+      "conversation_id": "test1",
+      "from_type": "ai",
+      "text": "您好！已收到您訊息，專業人員會盡快回覆。",
+      "is_ai": 1,
+      "sent_at": "2026-09-27T02:50:09.901Z"
+    },
+    {
+      "conversation_id": "demo",
+      "from_type": "customer",
+      "text": "????",
+      "is_ai": 0,
+      "sent_at": "2026-09-27T02:50:51.933Z"
+    },
+    {
+      "conversation_id": "demo",
+      "from_type": "ai",
+      "text": "收到！緊急問題可打門市電話。",
+      "is_ai": 1,
+      "sent_at": "2026-09-27T02:50:51.934Z"
+    }
+  ],
+  "orders": [],
+  "settings": {}
+}

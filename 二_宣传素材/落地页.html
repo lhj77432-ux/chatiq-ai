@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatIQ AI - WhatsApp 智能客服，24小時自動接單</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Microsoft JhengHei', sans-serif; color:#0f172a; line-height:1.6; }
+        .hero { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%); color:white; padding:80px 20px; text-align:center; }
+        .hero h1 { font-size:42px; margin-bottom:16px; font-weight:800; }
+        .hero p { font-size:18px; opacity:0.9; max-width:600px; margin:0 auto 32px; }
+        .hero .badge { display:inline-block; background:rgba(255,255,255,0.2); padding:6px 16px; border-radius:20px; font-size:13px; margin-bottom:20px; }
+        .btn-cta { display:inline-block; background:white; color:#2563eb; padding:16px 40px; border-radius:12px; font-size:17px; font-weight:700; text-decoration:none; margin:0 8px; transition:transform 0.2s; }
+        .btn-cta:hover { transform:translateY(-2px); }
+        .btn-cta.secondary { background:transparent; color:white; border:2px solid white; }
+        .container { max-width:1100px; margin:0 auto; padding:0 20px; }
+        section { padding:80px 0; }
+        .section-title { text-align:center; font-size:32px; font-weight:800; margin-bottom:12px; }
+        .section-subtitle { text-align:center; color:#64748b; font-size:16px; margin-bottom:48px; }
+        .features { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; }
+        .feature { background:white; border-radius:16px; padding:32px; box-shadow:0 1px 3px rgba(0,0,0,0.1); border:1px solid #e2e8f0; }
+        .feature-icon { font-size:40px; margin-bottom:16px; }
+        .feature h3 { font-size:18px; margin-bottom:8px; }
+        .feature p { color:#64748b; font-size:14px; }
+        .how-it-works { background:#f1f5f9; }
+        .steps { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:32px; text-align:center; }
+        .step-num { width:48px; height:48px; background:#2563eb; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; margin:0 auto 16px; }
+        .pricing { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:24px; max-width:900px; margin:0 auto; }
+        .price-card { background:white; border-radius:16px; padding:36px 28px; box-shadow:0 1px 3px rgba(0,0,0,0.1); border:2px solid #e2e8f0; text-align:center; }
+        .price-card.popular { border-color:#2563eb; position:relative; transform:scale(1.05); }
+        .popular-tag { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#2563eb; color:white; padding:4px 16px; border-radius:12px; font-size:12px; font-weight:600; }
+        .price-card h3 { font-size:18px; margin-bottom:8px; }
+        .price { font-size:40px; font-weight:800; margin:16px 0; }
+        .price small { font-size:16px; color:#64748b; font-weight:400; }
+        .price-card ul { list-style:none; text-align:left; margin:24px 0; }
+        .price-card li { padding:8px 0; font-size:14px; color:#475569; }
+        .price-card li::before { content:'✓ '; color:#10b981; font-weight:700; }
+        .testimonial { background:#f8fafc; }
+        .testi-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; }
+        .testi-card { background:white; padding:28px; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+        .testi-card p { font-size:14px; color:#475569; margin-bottom:16px; }
+        .testi-author { font-weight:700; font-size:13px; }
+        .testi-role { font-size:12px; color:#94a3b8; }
+        .cta-bottom { background:linear-gradient(135deg,#1e3a8a,#3b82f6); color:white; text-align:center; padding:80px 20px; }
+        .cta-bottom h2 { font-size:32px; margin-bottom:16px; }
+        footer { background:#0f172a; color:#64748b; text-align:center; padding:24px; font-size:13px; }
+        .screenshot { max-width:100%; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.3); margin-top:40px; }
+        @media(max-width:768px){ .hero h1{font-size:28px;} .price-card.popular{transform:none;} }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="badge">🇭🇰 香港中小企業專用</div>
+        <h1>WhatsApp 自動接單<br>讓 AI 幫你 24 小時做生意</h1>
+        <p>自動回覆客戶查詢、識別高意向客戶、自動創建訂單。睡覺都在賺錢。</p>
+        <a href="#pricing" class="btn-cta">免費試用 14 天</a>
+        <a href="#features" class="btn-cta secondary">了解更多</a>
+    </div>
+
+    <section id="features">
+        <div class="container">
+            <h2 class="section-title">功能強大，操作簡單</h2>
+            <p class="section-subtitle">不需要懂技術，5 分鐘完成設定，立即生效</p>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI 自動回覆</h3>
+                    <p>客戶問價錢、地址、營業時間，AI 秒回。支援中英文+粵語口語，永不疲倦。</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <h3>高意向客戶識別</h3>
+                    <p>AI 自動分析客戶意圖，評分高達 90% 的客戶即時提醒你，不錯過任何生意。</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📦</div>
+                    <h3>自動下單</h3>
+                    <p>客戶說「我要訂」，AI 自動創建訂單、確認資料，省掉人手處理。</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3>客戶分析報告</h3>
+                    <p>每週自動生成經營簡報：哪些客戶要流失、哪些最有價值、熱門問題是什麼。</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔔</div>
+                    <h3>流失預警</h3>
+                    <p>高價值客戶太久沒聯絡，自動提醒你主動跟進，客戶不流失。</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔄</div>
+                    <h3>一鍵轉人工</h3>
+                    <p>AI 搞不定的複雜問題，一鍵轉接手，客戶體驗不打折。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">三步開始使用</h2>
+            <p class="section-subtitle">不需要程式知識，照著做就可以</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <h3>連接 WhatsApp</h3>
+                    <p>掃碼綁定你的 WhatsApp Business 帳號</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <h3>上傳產品資料</h3>
+                    <p>上傳價目表、常見問題，AI 自動學習</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <h3>開始接單</h3>
+                    <p>AI 自動回覆客戶，你專注做大事</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing">
+        <div class="container">
+            <h2 class="section-title">簡單透明的收費</h2>
+            <p class="section-subtitle">14 天免費試用，不需要信用卡</p>
+            <div class="pricing">
+                <div class="price-card">
+                    <h3>基礎版</h3>
+                    <div class="price">HK$699<small>/月</small></div>
+                    <ul>
+                        <li>AI 自動回覆</li>
+                        <li>1 個 WhatsApp 帳號</li>
+                        <li>基礎客戶標籤</li>
+                        <li>每日數據摘要</li>
+                        <li>電郵支援</li>
+                    </ul>
+                    <a href="#" class="btn-cta secondary" style="width:100%;text-align:center;">免費試用</a>
+                </div>
+                <div class="price-card popular">
+                    <div class="popular-tag">最受歡迎</div>
+                    <h3>專業版</h3>
+                    <div class="price">HK$1,799<small>/月</small></div>
+                    <ul>
+                        <li>全部基礎版功能</li>
+                        <li>AI 客戶畫像分析</li>
+                        <li>銷售漏斗 + 跟進提醒</li>
+                        <li>自動訂單處理</li>
+                        <li>每週經營簡報</li>
+                        <li>WhatsApp + WhatsApp Business</li>
+                        <li>優先客服支援</li>
+                    </ul>
+                    <a href="#" class="btn-cta" style="width:100%;text-align:center;">免費試用</a>
+                </div>
+                <div class="price-card">
+                    <h3>企業版</h3>
+                    <div class="price">HK$4,000+<small>/月</small></div>
+                    <ul>
+                        <li>全部專業版功能</li>
+                        <li>多店舖/多帳號</li>
+                        <li>API 對接你的系統</li>
+                        <li>定制 AI 模型訓練</li>
+                        <li>專屬客戶經理</li>
+                        <li>SLA 99.9% 可用性</li>
+                    </ul>
+                    <a href="#" class="btn-cta secondary" style="width:100%;text-align:center;">聯絡我們</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial">
+        <div class="container">
+            <h2 class="section-title">商戶怎麼說</h2>
+            <div class="testi-grid">
+                <div class="testi-card">
+                    <p>「以前我自己一個人手機接 WhatsApp，常常漏單。用了 ChatIQ 之後，AI 半夜都在幫我回覆，這個月多了 20 多張訂單。」</p>
+                    <div class="testi-author">陳小姐</div>
+                    <div class="testi-role">美容工作室老闆，銅鑼灣</div>
+                </div>
+                <div class="testi-card">
+                    <p>「請一個客服一個月要 1.5 萬，這個工具一個月 1,799，而且 24 小時不停。老闆都識計啦。」</p>
+                    <div class="testi-author">黃先生</div>
+                    <div class="testi-role">健身中心負責人，旺角</div>
+                </div>
+                <div class="testi-card">
+                    <p>「最驚喜是 AI 會提醒我哪個客戶快流失了，用了半年，客戶回頭率提升了 30%。」</p>
+                    <div class="testi-author">李小姐</div>
+                    <div class="testi-role">留學顧問，尖沙咀</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-bottom">
+        <h2>今天就開始，讓 AI 幫你做生意</h2>
+        <p style="opacity:0.9;margin-bottom:24px;">14 天免費試用 · 不需要信用卡 · 隨時取消</p>
+        <a href="#" class="btn-cta">立即免費試用</a>
+    </div>
+
+    <footer>
+        © 2026 ChatIQ AI · 香港 · WhatsApp 智能客服解決方案
+    </footer>
+</body>
+</html>
