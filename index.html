@@ -64,6 +64,10 @@
                     <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
                     <span class="nav-label">客戶管理</span>
                 </div>
+                <div class="nav-item" data-page="broadcast" onclick="switchPage('broadcast')">
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+                    <span class="nav-label">營銷推廣</span>
+                </div>
                 <div class="nav-item" data-page="orders" onclick="switchPage('orders')">
                     <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
                     <span class="nav-label">訂單管理</span>
@@ -182,6 +186,9 @@
                         <div class="chat-search">
                             <input type="text" placeholder="搜尋對話..." id="chatSearch" oninput="filterChats()">
                         </div>
+                        <button class="btn-primary btn-sm" style="width:100%;margin-top:8px;" onclick="simulateNewCustomer()">+ 妯℃摤鏂板鎴朵締瑷?/button>
+                        <button class="btn-secondary btn-sm" id="autoReplyToggle" style="width:100%;margin-top:6px;" onclick="toggleAutoReply()">鑷嫊鍥炶锛氶枊鍟?/button>
+                        <button class="btn-secondary btn-sm" style="width:100%;margin-top:6px;" onclick="exportConversationsPDF()">鍖嚭灏嶈┍ PDF</button>
                         <div class="chat-tabs">
                             <span class="chat-tab active" onclick="filterChatTab('all',this)">全部</span>
                             <span class="chat-tab" onclick="filterChatTab('unread',this)">未讀</span>
@@ -246,6 +253,39 @@
             </div>
 
             <!-- 訂單管理頁 -->
+            <div id="page-broadcast" class="page">
+    <div class="page-toolbar">
+        <h2 style="margin:0;font-size:20px;">營銷推廣</h2>
+    </div>
+    <div style="max-width:600px;">
+        <div class="form-group">
+            <label>選擇客戶群組</label>
+            <select id="broadcastSegment" class="filter-select" style="width:100%;padding:10px;">
+                <option value="all">全部客戶</option>
+                <option value="A">A級高價值客戶</option>
+                <option value="B">B級客戶</option>
+                <option value="C">C級客戶</option>
+                <option value="lead">潛在客戶</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>選擇訊息範本</label>
+            <select id="broadcastTemplate" class="filter-select" style="width:100%;padding:10px;" onchange="loadTemplate()">
+                <option value="">-- 選擇範本 --</option>
+                <option value="discount">限時優惠通知</option>
+                <option value="newproduct">新產品上架通知</option>
+                <option value="invite">邀請到店體驗</option>
+                <option value="followup">跟進回購</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>訊息內容</label>
+            <textarea id="broadcastMsg" rows="5" style="width:100%;padding:10px;border:1px solid var(--border-radius);border-radius:8px;font-size:14px;" placeholder="輸入要發送的推銷訊息..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="sendBroadcast()">發送群發訊息</button>
+        <div id="broadcastResult" style="margin-top:16px;"></div>
+    </div>
+</div>
             <div id="page-orders" class="page">
                 <div class="page-toolbar">
                     <select class="filter-select" id="orderFilter" onchange="filterOrders()">

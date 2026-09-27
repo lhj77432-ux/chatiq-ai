@@ -50,7 +50,8 @@ function switchPage(page) {
         'customers': '客戶管理',
         'orders': '訂單管理',
         'analytics': '數據分析',
-        'ai-settings': 'AI 設定'
+        'ai-settings': 'AI 設定',
+        'broadcast': '營銷推廣'
     };
     document.getElementById('pageTitle').textContent = titles[page] || '';
 
@@ -61,6 +62,7 @@ function switchPage(page) {
     if (page === 'customers') renderCustomers();
     if (page === 'orders') renderOrders();
     if (page === 'analytics') initAnalytics();
+    if (page === 'broadcast') renderBroadcastCount();
 }
 
 function toggleSidebar() {
@@ -613,3 +615,39 @@ function showToast(msg) {
 window.addEventListener('resize', function() {
     Object.values(charts).forEach(function(c) { if (c) c.resize(); });
 });
+
+// ===== 營銷推廣 =====
+var templates = {
+    discount: '您好！本店限時優惠：全場9折，滿HK$500再減HK$50。今個星期有效，歡迎到店選購！',
+    newproduct: '您好！本店新到一批手工生活精品，包括新款咖啡杯同香薰機。歡迎到店睇下！',
+    invite: '您好！誠邀您到本店體驗新品，到店即送小禮品一份。地址：銅鑼灣恩平道28號。',
+    followup: '您好！多謝之前光顧，最近有新產品上架，仲有會員專屬優惠。想了解下嗎？'
+};
+function loadTemplate() {
+    var t = document.getElementById('broadcastTemplate').value;
+    if (templates[t]) document.getElementById('broadcastMsg').value = templates[t];
+}
+function renderBroadcastCount() {
+    var seg = document.getElementById('broadcastSegment').value;
+    var count = customers.length;
+    if (seg !== 'all') count = customers.filter(function(c){return c.grade===seg;}).length;
+    document.getElementById('broadcastResult').innerHTML = '已選擇 <strong>' + count + '</strong> 位客戶';
+}
+function sendBroadcast() {
+    var msg = document.getElementById('broadcastMsg').value.trim();
+    if (!msg) { showToast('請輸入訊息內容'); return; }
+    var seg = document.getElementById('broadcastSegment').value;
+    var list = customers;
+    if (seg !== 'all') list = customers.filter(function(c){return c.grade===seg;});
+    showToast('正在發送給 ' + list.length + ' 位客戶...');
+    setTimeout(function() {
+        document.getElementById('broadcastResult').innerHTML = '<div style="padding:16px;background:#f0fff4;border-radius:8px;border:1px solid #30d158;">✅ 已成功發送 ' + list.length + ' 則訊息<br><small style="color:var(--text-secondary);">狀態：已送達 ' + list.length + '，已讀 ' + Math.floor(list.length*0.7) + '</small></div>';
+        showToast('群發完成！');
+    }, 1500);
+}
+
+// ===== 快捷回覆 =====
+var quickReplies = ['您好！請問有咩可以幫到您？','多謝查詢！我幫您查下。','好嘅，我哋盡快安排。','多謝！歡迎隨時再搵我。'];
+function insertQuickReply(text) {
+    document.getElementById('chatInput').value = text;
+}
