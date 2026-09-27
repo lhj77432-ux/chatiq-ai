@@ -536,12 +536,29 @@ function renderHotQuestions() {
 }
 
 function renderWeeklyReport() {
-    document.getElementById('weeklyReport').innerHTML =
-        '<h4>本週經營簡報（AI 自動生成）</h4>' +
-        '<p>本週共收到 <span class="highlight">1,247 則對話</span>，AI 自動回覆率達 <span class="highlight">87%</span>，節省約 <span class="highlight">42 小時</span>人工時間。</p>' +
-        '<p>成交轉化率 <span class="highlight">34.2%</span>，較上週提升 8%。成交額 HK$87,420，環比增長 31%。</p>' +
-        '<p>發現 <span class="highlight">4 位高意向潛在客戶</span>，建議立即跟進。同時有 <span class="warning-text">1 位客戶有流失風險</span>，建議發送優惠挽回。</p>' +
-        '<p style="margin-top:8px;color:var(--text-secondary);font-size:12px;">建議：本週客戶最常問「營業時間」和「價格」，建議在歡迎訊息中主動提供，可再提升轉化率約 5%。</p>';
+    var convCount = 1247, aiRate = 87, hoursSaved = 42;
+    var convRate = 34.2, revenue = 87420, revenueGrowth = 31;
+    var hotLeads = 4, atRisk = 1;
+    var topQ = '營業時間', secondQ = '產品價格';
+
+    var html = '<h4>AI 經營分析與行動建議</h4>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;">';
+    html += '<div style="padding:12px;background:#f0f7ff;border-radius:8px;border-left:3px solid #0071e3;"><strong>營運概況</strong><br><small>本週對話 ' + convCount + ' 則，AI 回覆率 ' + aiRate + '%，節省 ' + hoursSaved + ' 小時</small></div>';
+    html += '<div style="padding:12px;background:#f0fff4;border-radius:8px;border-left:3px solid #30d158;"><strong>成交表現</strong><br><small>轉化率 ' + convRate + '%，營業額 HK$' + revenue.toLocaleString() + '（+' + revenueGrowth + '%）</small></div>';
+    html += '</div>';
+
+    html += '<div style="margin:16px 0;"><strong style="font-size:14px;">AI 建議行動：</strong></div>';
+    html += '<div style="display:flex;flex-direction:column;gap:8px;">';
+    html += '<div style="padding:10px;background:#fff8e1;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">1</span><div><strong>優化歡迎訊息</strong><br><small>客戶最常問「' + topQ + '」和「' + secondQ + '」，建議在新客進來的第一句就主動提供，可減少 30% 重複問答，預估提升轉化率 5-8%。</small></div></div>';
+    html += '<div style="padding:10px;background:#f0f7ff;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">2</span><div><strong>跟進 ' + hotLeads + ' 位高意向客戶</strong><br><small>系統識別 ' + hotLeads + ' 位客戶詢問後未下單，建議今日內發送限時優惠（9折券），製造緊迫感。預估轉化其中 1-2 位。</small></div></div>';
+    html += '<div style="padding:10px;background:#fff0f0;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">3</span><div><strong>挽回 ' + atRisk + ' 位流失風險客戶</strong><br><small>有客戶超過 20 天無互動，建議發送「我們想念你」專屬優惠（85折），附新品推薦。</small></div></div>';
+    html += '<div style="padding:10px;background:#f5f0ff;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">4</span><div><strong>優化熱門問題回覆</strong><br><small>「' + topQ + '」被問了 186 次，建議把它設為快捷回覆按鈕，一鍵發送，提升回覆速度。</small></div></div>';
+    html += '<div style="padding:10px;background:#f0fff4;border-radius:8px;display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;">5</span><div><strong>投放建議</strong><br><small>香港島客戶最多（142人），建議在銅鑼灣門市附近加強 WhatsApp 廣告投放，回報率最高。</small></div></div>';
+    html += '</div>';
+
+    html += '<div style="margin-top:16px;padding:12px;background:var(--bg-secondary);border-radius:8px;"><strong>下週預測</strong><br><small>按目前趨勢，下週對話量約 ' + Math.round(convCount*1.1) + ' 則，營業額預估 HK$' + Math.round(revenue*1.15).toLocaleString() + '。建議庫存準備提升 15%。</small></div>';
+
+    document.getElementById('weeklyReport').innerHTML = html;
 }
 
 // ===== 設定 =====
