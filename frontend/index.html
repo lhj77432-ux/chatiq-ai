@@ -236,6 +236,12 @@
                         <option value="C">C級（一般）</option>
                         <option value="lead">潛在客戶</option>
                     </select>
+                    <select class="filter-select" id="intentFilter" onchange="filterCustomers()">
+                        <option value="all">全部意向</option>
+                        <option value="高意向">高意向（強烈）</option>
+                        <option value="中意向">中意向（潛在）</option>
+                        <option value="低意向">低意向（一般）</option>
+                    </select>
                     <button class="btn-primary btn-sm" onclick="exportCustomers()">匯出 Word</button><button class="btn-secondary btn-sm" onclick="importData('customers')">匯入客戶</button><button class="btn-secondary btn-sm" onclick="exportAllJSON()">備份 JSON</button>
                 </div>
                 <div class="customer-grid" id="customerGrid"></div>

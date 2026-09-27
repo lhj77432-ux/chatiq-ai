@@ -7,7 +7,7 @@ const customers = [
         totalSpent: 28400, orders: 12, lastContact: '2026-09-26',
         tags: ['高意向', '老客戶', '美容產品'], avatarColor: '#10b981',
         aiInsight: '客戶對高端產品接受度高，建議推薦最新護膚套裝。過去3個月消費增長45%，是VIP級別客戶。',
-        sentiment: 'positive', location: '香港島',
+        sentiment: 'positive', location: '香港島', leadScore: 92, intentCategory: '高意向',
         timeline: [
             { time: '09-26 14:30', event: '咨詢新款精華液，AI自動回覆' },
             { time: '09-20 11:00', event: '購買面膜套裝 HK$1,280' },
@@ -19,7 +19,7 @@ const customers = [
         totalSpent: 19200, orders: 8, lastContact: '2026-09-27',
         tags: ['高意向', '需跟進', '健身課程'], avatarColor: '#10b981',
         aiInsight: '客戶正在比較3家健身中心，價格敏感度中等。建議今日內發出優惠方案，成交概率78%。',
-        sentiment: 'neutral', location: '九龍',
+        sentiment: 'neutral', location: '九龍', leadScore: 35, intentCategory: '低意向',
         timeline: [
             { time: '09-27 10:15', event: '詢問私人教練課程價格' },
             { time: '09-25 09:30', event: 'AI自動回覆營業時間' },
@@ -31,7 +31,7 @@ const customers = [
         totalSpent: 8600, orders: 5, lastContact: '2026-09-24',
         tags: ['已報價', '潛在客戶'], avatarColor: '#2563eb',
         aiInsight: '客戶對報價反應積極，但預算有限。建議提供分期方案或入門級產品，成交概率62%。',
-        sentiment: 'positive', location: '新界',
+        sentiment: 'positive', location: '新界', leadScore: 65, intentCategory: '中意向',
         timeline: [
             { time: '09-24 15:00', event: '收到報價，表示需要考慮' },
             { time: '09-23 11:20', event: '咨詢產品規格' }
@@ -42,7 +42,7 @@ const customers = [
         totalSpent: 5400, orders: 3, lastContact: '2026-09-27',
         tags: ['高意向', '新客戶'], avatarColor: '#2563eb',
         aiInsight: '新客戶，首次咨詢就表現強烈購買意圖。建議快速回覆並提供新客戶優惠，成交概率85%。',
-        sentiment: 'positive', location: '香港島',
+        sentiment: 'positive', location: '香港島', leadScore: 92, intentCategory: '高意向',
         timeline: [
             { time: '09-27 09:00', event: '首次發訊息，詢問產品詳情' },
             { time: '09-27 09:02', event: 'AI自動回覆，客戶繼續追問' }
@@ -53,7 +53,7 @@ const customers = [
         totalSpent: 1200, orders: 1, lastContact: '2026-09-10',
         tags: ['一般客戶'], avatarColor: '#94a3b8',
         aiInsight: '客戶只購買過一次低價產品，近期無互動。可發送促銷信息嘗試喚醒，預計回覆率20%。',
-        sentiment: 'neutral', location: '九龍',
+        sentiment: 'neutral', location: '九龍', leadScore: 35, intentCategory: '低意向',
         timeline: [
             { time: '09-10 14:00', event: '購買單品 HK$1,200' }
         ]
@@ -63,7 +63,7 @@ const customers = [
         totalSpent: 0, orders: 0, lastContact: '2026-09-27',
         tags: ['潛在客戶', '高意向', '留學咨詢'], avatarColor: '#f59e0b',
         aiInsight: '留學咨詢客戶，目標明確（英國碩士），預算充足。建議立即轉人工顧問跟進，成交概率90%。',
-        sentiment: 'positive', location: '香港島',
+        sentiment: 'positive', location: '香港島', leadScore: 92, intentCategory: '高意向',
         timeline: [
             { time: '09-27 11:30', event: '咨詢英國留學申請服務' },
             { time: '09-27 11:31', event: 'AI自動回覆，客戶預約顧問' }
@@ -74,7 +74,7 @@ const customers = [
         totalSpent: 12800, orders: 6, lastContact: '2026-09-26',
         tags: ['老客戶', '餐飲設備'], avatarColor: '#2563eb',
         aiInsight: '餐廳老闆，定期採購設備。上次採購後30天，建議主動聯繫了解新需求，復購概率70%。',
-        sentiment: 'positive', location: '九龍',
+        sentiment: 'positive', location: '九龍', leadScore: 72, intentCategory: '中意向',
         timeline: [
             { time: '09-26 10:00', event: '查詢保養服務' },
             { time: '08-28 15:00', event: '採購廚具 HK$8,000' }
@@ -85,7 +85,7 @@ const customers = [
         totalSpent: 600, orders: 1, lastContact: '2026-09-05',
         tags: ['一般客戶', '流失風險'], avatarColor: '#94a3b8',
         aiInsight: '⚠️ 流失風險：超過20天無互動，且只消費過一次。建議發送個人化優惠券挽回。',
-        sentiment: 'negative', location: '新界',
+        sentiment: 'negative', location: '新界', leadScore: 25, intentCategory: '低意向',
         timeline: [
             { time: '09-05 12:00', event: '購買特價商品 HK$600' }
         ]

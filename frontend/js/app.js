@@ -347,6 +347,12 @@ function renderCustomers() {
             '<div style="flex:1;"><div class="customer-name">' + c.name + '</div>' +
             '<div class="customer-phone">' + c.phone + '</div></div>' +
             '<span class="customer-grade ' + gradeClasses[c.grade] + '">' + gradeLabels[c.grade] + '</span></div>' +
+            '<div style="display:flex;align-items:center;gap:6px;margin:8px 0 4px;">' +
+            '<span style="font-size:11px;color:var(--text-secondary);">意向</span>' +
+            '<span style="font-size:11px;font-weight:600;color:' + (c.leadScore>=80?'#ff453a':c.leadScore>=60?'#ff9f0a':'#8e8e93') + ';">' + (c.intentCategory||'未分級') + '</span>' +
+            '<div style="flex:1;height:4px;background:#e5e5ea;border-radius:2px;overflow:hidden;">' +
+            '<div style="width:' + (c.leadScore||50) + '%;height:100%;background:' + (c.leadScore>=80?'#ff453a':c.leadScore>=60?'#ff9f0a':'#8e8e93') + ';border-radius:2px;"></div></div>' +
+            '<span style="font-size:11px;font-weight:600;">' + (c.leadScore||50) + '</span></div>' +
             '<div class="customer-meta">' +
             '<div class="customer-meta-item">消費額<strong>HK$ ' + c.totalSpent.toLocaleString() + '</strong></div>' +
             '<div class="customer-meta-item">訂單數<strong>' + c.orders + ' 單</strong></div>' +
@@ -356,7 +362,43 @@ function renderCustomers() {
     }).join('');
 }
 
-function filterCustomers() { renderCustomers(); }
+function filterCustomers() {
+    var grade = document.getElementById('customerFilter').value;
+    var intent = document.getElementById('intentFilter') ? document.getElementById('intentFilter').value : 'all';
+    var search = document.getElementById('customerSearch').value.toLowerCase();
+    var list = customers;
+    if (grade !== 'all') list = list.filter(function(c) { return c.grade === grade; });
+    if (intent !== 'all') list = list.filter(function(c) { return c.intentCategory === intent; });
+    if (search) list = list.filter(function(c) { return c.name.toLowerCase().includes(search) || c.phone.includes(search); });
+    var gradeLabels = { A: 'A級', B: 'B級', C: 'C級', lead: '潛在' };
+    var gradeClasses = { A: 'grade-badge-A', B: 'grade-badge-B', C: 'grade-badge-C', lead: 'grade-badge-lead' };
+    var el = document.getElementById('customerGrid');
+    el.innerHTML = list.map(function(c) {
+        var tagsHtml = c.tags.map(function(t) {
+            var cls = t.includes('高意向') ? 'hot' : '';
+            if (t.includes('跟進')) cls += ' need-follow';
+            return '<span class="customer-tag ' + cls + '">' + t + '</span>';
+        }).join('');
+        return '<div class="customer-card" onclick="openCustomerDetail(\'' + c.id + '\')">' +
+            '<div class="customer-card-header">' +
+            '<div class="customer-avatar grade-' + c.grade + '">' + c.name.charAt(0) + '</div>' +
+            '<div style="flex:1;"><div class="customer-name">' + c.name + '</div>' +
+            '<div class="customer-phone">' + c.phone + '</div></div>' +
+            '<span class="customer-grade ' + gradeClasses[c.grade] + '">' + gradeLabels[c.grade] + '</span></div>' +
+            '<div style="display:flex;align-items:center;gap:6px;margin:8px 0 4px;">' +
+            '<span style="font-size:11px;color:var(--text-secondary);">意向</span>' +
+            '<span style="font-size:11px;font-weight:600;color:' + (c.leadScore>=80?'#ff453a':c.leadScore>=60?'#ff9f0a':'#8e8e93') + ';">' + (c.intentCategory||'未分級') + '</span>' +
+            '<div style="flex:1;height:4px;background:#e5e5ea;border-radius:2px;overflow:hidden;">' +
+            '<div style="width:' + (c.leadScore||50) + '%;height:100%;background:' + (c.leadScore>=80?'#ff453a':c.leadScore>=60?'#ff9f0a':'#8e8e93') + ';border-radius:2px;"></div></div>' +
+            '<span style="font-size:11px;font-weight:600;">' + (c.leadScore||50) + '</span></div>' +
+            '<div class="customer-meta">' +
+            '<div class="customer-meta-item">消費額<strong>HK$ ' + c.totalSpent.toLocaleString() + '</strong></div>' +
+            '<div class="customer-meta-item">訂單數<strong>' + c.orders + ' 單</strong></div>' +
+            '<div class="customer-meta-item">所在地<strong>' + c.location + '</strong></div>' +
+            '<div class="customer-meta-item">最後聯絡<strong>' + c.lastContact + '</strong></div>' +
+            '</div><div class="customer-tags">' + tagsHtml + '</div></div>';
+    }).join('');
+}
 
 function openCustomerDetail(customerId) {
     var c = customers.find(function(x) { return x.id === customerId; });
