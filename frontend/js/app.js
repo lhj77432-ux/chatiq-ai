@@ -1,4 +1,22 @@
 // ===== ChatIQ AI 主應用 =====
+// 數據持久化
+function saveData() {
+    try {
+        localStorage.setItem('chatiq_customers', JSON.stringify(customers));
+        localStorage.setItem('chatiq_orders', JSON.stringify(orders));
+        localStorage.setItem('chatiq_conversations', JSON.stringify(conversations));
+    } catch(e) {}
+}
+function loadData() {
+    try {
+        var c = localStorage.getItem('chatiq_customers');
+        if (c) customers = JSON.parse(c);
+        var o = localStorage.getItem('chatiq_orders');
+        if (o) orders = JSON.parse(o);
+        var cv = localStorage.getItem('chatiq_conversations');
+        if (cv) conversations = JSON.parse(cv);
+    } catch(e) {}
+}
 
 let currentPage = 'dashboard';
 let currentConversation = null;
