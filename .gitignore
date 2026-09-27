@@ -1,4 +1,3 @@
 ﻿node_modules/
-*.log
 data.json
-.git/
+.DS_Store

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatIQ AI - WhatsApp 智能客服與客戶分析系統</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 登入頁 -->
+    <div id="loginPage" class="login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <div class="logo-icon">
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                    </svg>
+                </div>
+                <h1>ChatIQ AI</h1>
+                <p>WhatsApp 智能客服與客戶分析系統</p>
+            </div>
+            <div class="login-form">
+                <div class="form-group">
+                    <label>商戶編號 / 電郵</label>
+                    <input type="text" id="loginEmail" value="demo@chatiq.ai" placeholder="輸入電郵">
+                </div>
+                <div class="form-group">
+                    <label>密碼</label>
+                    <input type="password" id="loginPass" value="demo1234" placeholder="輸入密碼">
+                </div>
+                <button class="btn-primary btn-block" onclick="doLogin()">登入系統</button>
+                <p class="login-hint">演示賬號已預填，直接點擊登入即可體驗</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主應用 -->
+    <div id="app" class="app-container" style="display:none;">
+        <!-- 側邊欄 -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon-sm">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                    </svg>
+                </div>
+                <span class="logo-text">ChatIQ AI</span>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-item active" data-page="dashboard" onclick="switchPage('dashboard')">
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>
+                    <span class="nav-label">數據總覽</span>
+                </div>
+                <div class="nav-item" data-page="conversations" onclick="switchPage('conversations')">
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+                    <span class="nav-label">對話管理</span>
+                    <span class="nav-badge" id="unreadBadge">3</span>
+                </div>
+                <div class="nav-item" data-page="customers" onclick="switchPage('customers')">
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+                    <span class="nav-label">客戶管理</span>
+                </div>
+                <div class="nav-item" data-page="orders" onclick="switchPage('orders')">
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+                    <span class="nav-label">訂單管理</span>
+                </div>
+                <div class="nav-item" data-page="analytics" onclick="switchPage('analytics')">
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                    <span class="nav-label">數據分析</span>
+                </div>
+                <div class="nav-item" data-page="ai-settings" onclick="switchPage('ai-settings')">
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+                    <span class="nav-label">AI 設定</span>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">陳</div>
+                    <div class="user-detail">
+                        <div class="user-name">陳先生</div>
+                        <div class="user-plan">專業版</div>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="doLogout()">登出</button>
+            </div>
+        </aside>
+
+        <!-- 主內容區 -->
+        <main class="main-content">
+            <!-- 頂部欄 -->
+            <header class="topbar">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <h2 id="pageTitle">數據總覽</h2>
+                <div class="topbar-actions">
+                    <span class="status-dot online"></span>
+                    <span class="status-text">WhatsApp 已連接</span>
+                    <button class="btn-secondary btn-sm" onclick="showNotification()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        通知
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard 頁 -->
+            <div id="page-dashboard" class="page active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d7a3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="statMessages">1,247</div>
+                            <div class="stat-label">本月對話數</div>
+                            <div class="stat-trend up">↑ 23%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#004494" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="statCustomers">328</div>
+                            <div class="stat-label">活躍客戶</div>
+                            <div class="stat-trend up">↑ 15%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c93400" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="statRevenue">HK$ 87,420</div>
+                            <div class="stat-label">本月成交額</div>
+                            <div class="stat-trend up">↑ 31%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="statConversion">34.2%</div>
+                            <div class="stat-label">成交轉化率</div>
+                            <div class="stat-trend up">↑ 8%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="chart-card">
+                        <h3>對話與成交趨勢</h3>
+                        <div id="trendChart" class="chart-container"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>客戶分層佔比</h3>
+                        <div id="pieChart" class="chart-container"></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="chart-card">
+                        <h3>高意向潛在客戶 <span style="font-size:12px;color:var(--text-tertiary);font-weight:400;">AI 識別</span></h3>
+                        <div class="lead-list" id="leadList"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>需要跟進的提醒</h3>
+                        <div class="alert-list" id="alertList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 對話管理頁 -->
+            <div id="page-conversations" class="page">
+                <div class="chat-layout">
+                    <div class="chat-list">
+                        <div class="chat-search">
+                            <input type="text" placeholder="搜尋對話..." id="chatSearch" oninput="filterChats()">
+                        </div>
+                        <div class="chat-tabs">
+                            <span class="chat-tab active" onclick="filterChatTab('all',this)">全部</span>
+                            <span class="chat-tab" onclick="filterChatTab('unread',this)">未讀</span>
+                            <span class="chat-tab" onclick="filterChatTab('ai',this)">AI 處理中</span>
+                            <span class="chat-tab" onclick="filterChatTab('human',this)">人工</span>
+                        </div>
+                        <div class="chat-conversations" id="chatConversations"></div>
+                    </div>
+                    <div class="chat-window" id="chatWindow">
+                        <div class="chat-header" id="chatHeader">
+                            <span>選擇一個對話開始</span>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-empty">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#aeaeb2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                <p>從左側選擇對話</p>
+                            </div>
+                        </div>
+                        <div class="chat-input-area" id="chatInputArea" style="display:none;">
+                            <div class="ai-suggestions" id="aiSuggestions"></div>
+                            <div class="chat-input-row">
+                                <button class="btn-ai-reply" onclick="aiGenerateReply()">AI 生成回覆</button>
+                                <input type="text" id="chatInput" placeholder="輸入訊息..." onkeypress="if(event.key==='Enter')sendMessage()">
+                                <button class="btn-send" onclick="sendMessage()">發送</button>
+                            </div>
+                            <div class="chat-tags">
+                                <span class="tag-btn" onclick="addTag('高意向')">高意向</span>
+                                <span class="tag-btn" onclick="addTag('需跟進')">需跟進</span>
+                                <span class="tag-btn" onclick="addTag('已報價')">已報價</span>
+                                <span class="tag-btn" onclick="takeOver()">轉人工</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 客戶管理頁 -->
+            <div id="page-customers" class="page">
+                <div class="page-toolbar">
+                    <input type="text" class="search-input" placeholder="搜尋客戶..." id="customerSearch" oninput="filterCustomers()">
+                    <select class="filter-select" id="customerFilter" onchange="filterCustomers()">
+                        <option value="all">全部客戶</option>
+                        <option value="A">A級（高價值）</option>
+                        <option value="B">B級（中價值）</option>
+                        <option value="C">C級（一般）</option>
+                        <option value="lead">潛在客戶</option>
+                    </select>
+                    <button class="btn-primary btn-sm" onclick="exportCustomers()">匯出</button>
+                </div>
+                <div class="customer-grid" id="customerGrid"></div>
+            </div>
+
+            <!-- 客戶詳情彈窗 -->
+            <div id="customerModal" class="modal" style="display:none;">
+                <div class="modal-content modal-wide">
+                    <div class="modal-header">
+                        <h3 id="modalCustomerName">客戶詳情</h3>
+                        <button class="modal-close" onclick="closeModal('customerModal')">✕</button>
+                    </div>
+                    <div class="modal-body" id="modalCustomerBody"></div>
+                </div>
+            </div>
+
+            <!-- 訂單管理頁 -->
+            <div id="page-orders" class="page">
+                <div class="page-toolbar">
+                    <select class="filter-select" id="orderFilter" onchange="filterOrders()">
+                        <option value="all">全部訂單</option>
+                        <option value="pending">待確認</option>
+                        <option value="confirmed">已確認</option>
+                        <option value="completed">已完成</option>
+                        <option value="cancelled">已取消</option>
+                    </select>
+                    <span class="order-summary" id="orderSummary"></span>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>訂單編號</th>
+                                <th>客戶</th>
+                                <th>產品</th>
+                                <th>金額</th>
+                                <th>狀態</th>
+                                <th>下單時間</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 數據分析頁 -->
+            <div id="page-analytics" class="page">
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3>銷售漏斗</h3>
+                        <div id="funnelChart" class="chart-container"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>客戶滿意度趨勢 <span style="font-size:12px;color:var(--text-tertiary);font-weight:400;">AI 情緒分析</span></h3>
+                        <div id="sentimentChart" class="chart-container"></div>
+                    </div>
+                </div>
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3>熱門問題排行</h3>
+                        <div id="hotQuestions" class="question-list"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>客戶地域分佈</h3>
+                        <div id="regionChart" class="chart-container"></div>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>每週經營簡報 <span style="font-size:12px;color:var(--text-tertiary);font-weight:400;">AI 自動生成</span></h3>
+                    <div class="weekly-report" id="weeklyReport"></div>
+                </div>
+            </div>
+
+            <!-- AI 設定頁 -->
+            <div id="page-ai-settings" class="page">
+                <div class="settings-tabs">
+                    <div class="settings-tab active" onclick="switchSettingsTab('api')">AI 引擎</div>
+                    <div class="settings-tab" onclick="switchSettingsTab('knowledge')">知識庫</div>
+                    <div class="settings-tab" onclick="switchSettingsTab('auto-reply')">自動回覆規則</div>
+                    <div class="settings-tab" onclick="switchSettingsTab('whatsapp')">WhatsApp 連接</div>
+                </div>
+
+                <div id="settings-api" class="settings-panel active">
+                    <div class="connect-status">
+                        <div class="status-card connected">
+                            <span class="status-dot online"></span>
+                            <div>
+                                <strong>ChatIQ 內置 AI 引擎已啟用</strong>
+                                <p>無需 API Key，開箱即用。AI 已學習您的知識庫，24 小時自動回覆客戶。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>AI 引擎版本</label>
+                        <select id="modelSelect">
+                            <option>ChatIQ AI v2.1（推薦，已啟用）</option>
+                            <option>ChatIQ AI v2.0（標準）</option>
+                            <option>ChatIQ AI v1.5（輕量）</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>AI 回覆語言風格</label>
+                        <select id="replyStyle">
+                            <option>專業禮貌（繁體中文）</option>
+                            <option>親切活潑（繁體中文）</option>
+                            <option>簡潔直接（英文）</option>
+                            <option>粵語口語</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="saveSettings('api')">儲存設定</button>
+                </div>
+
+                <div id="settings-knowledge" class="settings-panel">
+                    <div class="form-group">
+                        <label>上傳產品資料 / 常見問題</label>
+                        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                            <span>點擊上傳或拖拽文件到此</span>
+                            <small>支援 PDF, Word, TXT, Excel</small>
+                            <input type="file" id="fileInput" style="display:none" multiple onchange="handleFileUpload(this)">
+                        </div>
+                    </div>
+                    <div class="knowledge-list" id="knowledgeList">
+                        <div class="knowledge-item">
+                            <span>產品價目表_2026.pdf</span>
+                            <span class="kb-status">已索引</span>
+                            <button class="btn-link" onclick="removeKB(this)">刪除</button>
+                        </div>
+                        <div class="knowledge-item">
+                            <span>常見問題FAQ.docx</span>
+                            <span class="kb-status">已索引</span>
+                            <button class="btn-link" onclick="removeKB(this)">刪除</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>手動添加知識條目</label>
+                        <textarea id="kbManual" rows="3" placeholder="輸入問題和答案，例如：&#10;問：營業時間？&#10;答：星期一至六 10:00-20:00"></textarea>
+                        <button class="btn-secondary btn-sm" onclick="addKBEntry()">添加</button>
+                    </div>
+                </div>
+
+                <div id="settings-auto-reply" class="settings-panel">
+                    <div class="form-group">
+                        <label>歡迎訊息（客戶首次發訊息時自動發送）</label>
+                        <textarea id="welcomeMsg" rows="3">您好！歡迎聯絡我們。我是 AI 助手，請問有什麼可以幫到您？</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>離線自動回覆（非營業時間）</label>
+                        <textarea id="offlineMsg" rows="3">您好，現在是非營業時間。我們已收到您的訊息，營業時間內會盡快回覆您。</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>營業時間</label>
+                        <div class="time-row">
+                            <input type="time" value="10:00"> 至 <input type="time" value="20:00">
+                            <label style="margin-left:10px;"><input type="checkbox" checked> 星期一至六</label>
+                            <label><input type="checkbox"> 星期日</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><input type="checkbox" checked id="autoOrder"> 啟用 AI 自動下單（客戶表達購買意圖時自動創建訂單）</label>
+                    </div>
+                    <div class="form-group">
+                        <label><input type="checkbox" checked id="autoTag"> 啟用 AI 自動標籤客戶（意向度、需求類型）</label>
+                    </div>
+                    <button class="btn-primary" onclick="saveSettings('auto-reply')">儲存設定</button>
+                </div>
+
+                <div id="settings-whatsapp" class="settings-panel">
+                    <div class="connect-status">
+                        <div class="status-card connected">
+                            <span class="status-dot online"></span>
+                            <div>
+                                <strong>WhatsApp Business API 已連接</strong>
+                                <p>號碼：+852 5XXX XXXX | 訊息收發正常</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp Business API Token</label>
+                        <input type="password" value="EAAXxxxxxxxxxxxx" placeholder="輸入 API Token">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number ID</label>
+                        <input type="text" value="1234567890" placeholder="輸入 Phone Number ID">
+                    </div>
+                    <div class="form-group">
+                        <label>Webhook 回調地址</label>
+                        <input type="text" value="https://your-domain.com/webhook/whatsapp" readonly>
+                        <small>將此地址填入 WhatsApp Business 後台的 Webhook 设置</small>
+                    </div>
+                    <button class="btn-primary" onclick="saveSettings('whatsapp')">儲存並測試連接</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 通知彈窗 -->
+    <div id="notificationPanel" class="notification-panel" style="display:none;">
+        <div class="notification-header">
+            <h4>通知</h4>
+            <button onclick="hideNotification()">✕</button>
+        </div>
+        <div class="notification-list" id="notificationList"></div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div id="toast" class="toast" style="display:none;"></div>
+
+    <style>
+        body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(1200px 600px at 80% -10%, rgba(94,106,210,0.08), transparent), radial-gradient(900px 500px at -10% 110%, rgba(124,58,237,0.06), transparent); pointer-events: none; z-index: 0; }
+        .main-content { position: relative; z-index: 1; }
+        .stat-card, .chart-card { position: relative; overflow: hidden; transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), border-color 0.2s, box-shadow 0.2s; }
+        .stat-card::after, .chart-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(94,106,210,0.1), transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .stat-card:hover::after, .chart-card:hover::after { opacity: 1; }
+        .stat-card:hover { border-color: rgba(94,106,210,0.3); box-shadow: 0 8px 24px rgba(94,106,210,0.1); }
+        .chart-card:hover { border-color: rgba(94,106,210,0.2); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .page.active .stat-card, .page.active .chart-card { animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both; }
+        .page.active .stat-card:nth-child(1) { animation-delay: 0.02s; }
+        .page.active .stat-card:nth-child(2) { animation-delay: 0.06s; }
+        .page.active .stat-card:nth-child(3) { animation-delay: 0.10s; }
+        .page.active .stat-card:nth-child(4) { animation-delay: 0.14s; }
+        .nav-item { position: relative; overflow: hidden; }
+        .nav-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); transform: scaleY(0); transition: transform 0.2s; }
+        .nav-item:hover::before, .nav-item.active::before { transform: scaleY(1); }
+        .btn-primary { position: relative; overflow: hidden; transition: transform 0.15s; }
+        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); transition: left 0.5s; }
+        .btn-primary:hover::before { left: 100%; }
+        .stat-card:hover .stat-value { color: var(--accent); }
+        
+        @keyframes msgIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .msg { animation: msgIn 0.3s cubic-bezier(0.4,0,0.2,1); }
+        .lead-item { position: relative; }
+        .lead-item::after { content: '\2192'; position: absolute; right: 12px; opacity: 0; transform: translateX(-4px); transition: all 0.2s; color: var(--accent); }
+        .lead-item:hover::after { opacity: 1; transform: translateX(0); }
+        .data-table tbody tr { position: relative; }
+        .data-table tbody tr::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--accent); opacity: 0; transition: opacity 0.15s; }
+        .data-table tbody tr:hover::before { opacity: 1; }
+        .lead-avatar, .customer-avatar, .chat-conv-avatar, .user-avatar { transition: transform 0.2s; }
+        .lead-item:hover .lead-avatar, .customer-card:hover .customer-avatar { transform: scale(1.08); }
+        @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        .toast { animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1); }
+    </style>
+    <script>
+    (function() {
+        
+        var tx=0, ty=0;
+        document.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; });
+        (function loop(){  requestAnimationFrame(loop); })();
+        document.addEventListener('mousemove', function(e){
+            document.querySelectorAll('.stat-card, .chart-card').forEach(function(card){
+                var r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', ((e.clientX-r.left)/r.width)*100+'%');
+                card.style.setProperty('--my', ((e.clientY-r.top)/r.height)*100+'%');
+            });
+        });
+        document.querySelectorAll('.stat-card').forEach(function(card){
+            card.addEventListener('mousemove', function(e){
+                var r = card.getBoundingClientRect();
+                var x=(e.clientX-r.left)/r.width-0.5, y=(e.clientY-r.top)/r.height-0.5;
+                card.style.transform='translateY(-2px) rotateX('+(-y*4)+'deg) rotateY('+(x*4)+'deg)';
+            });
+            card.addEventListener('mouseleave', function(){ card.style.transform=''; });
+        });
+        document.querySelectorAll('.btn-primary').forEach(function(btn){
+            btn.addEventListener('mousemove', function(e){
+                var r=btn.getBoundingClientRect();
+                btn.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.15)+'px, '+((e.clientY-r.top-r.height/2)*0.15)+'px)';
+            });
+            btn.addEventListener('mouseleave', function(){ btn.style.transform=''; });
+        });
+    
+    })();
+    </script>
+    <script src="js/mock-data.js"></script>
+    <script src="js/ai-engine.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
