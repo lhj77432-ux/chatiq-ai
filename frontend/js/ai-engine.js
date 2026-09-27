@@ -181,16 +181,52 @@ const AIEngine = {
 
     pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; },
 
-    // 主入口
     generateReply(customerMessage, customerId) {
+        const lang = this.detectLang(customerMessage||'');
+        const result = this._generateReply(customerMessage, customerId);
+        return this.localize(result, lang);
+    },
+
+    detectLang(msg) {
+        const m = (msg||'').toLowerCase();
+        if (/^[a-zA-Z0-9\s\?\!\.\,\'\"\-]+$/.test(m) && m.length > 3) return 'en';
+        const cantonese = ['係','嘅','喺','咗','唔','咩','啲','俾','搵','嗰','嚟','咁','佢','哋','靚','喺邊','幾錢','邊度','唔該','唔要','唔好'];
+        const mandarin = ['请问','怎么','我们','你们','什么','这个','那个','多少钱','哪里','可以','谢谢','你好','一下','现在','今天','明天','为什么'];
+        let cs=0, ms=0;
+        for (const w of cantonese) if (m.includes(w)) cs++;
+        for (const w of mandarin) if (m.includes(w)) ms++;
+        if (cs > ms) return 'zh-HK';
+        if (ms > cs) return 'zh-CN';
+        if (/[吗们说这个还过这]/.test(m)) return 'zh-CN';
+        return 'zh-HK';
+    },
+    localize(text, lang) {
+        if (lang === 'zh-HK') return text;
+        if (lang === 'zh-CN') {
+            return text.replace(/您好/g,'你好').replace(/我哋/g,'我们').replace(/您/g,'你')
+                .replace(/係/g,'是').replace(/嘅/g,'的').replace(/喺/g,'在').replace(/咗/g,'了')
+                .replace(/唔/g,'不').replace(/咩/g,'什么').replace(/啲/g,'些').replace(/俾/g,'给')
+                .replace(/搵/g,'找').replace(/嗰/g,'那').replace(/嚟/g,'来').replace(/咁/g,'这么')
+                .replace(/佢/g,'他').replace(/哋/g,'们').replace(/幾錢/g,'多少钱').replace(/邊度/g,'哪里')
+                .replace(/唔該/g,'不客气').replace(/多謝/g,'谢谢').replace(/而家/g,'现在')
+                .replace(/聽日/g,'明天').replace(/今日/g,'今天').replace(/買/g,'买').replace(/過/g,'过')
+                .replace(/個/g,'个').replace(/點/g,'点').replace(/講/g,'说').replace(/睇/g,'看')
+                .replace(/幫/g,'帮').replace(/優惠/g,'优惠').replace(/營業/g,'营业').replace(/時間/g,'时间')
+                .replace(/開/g,'开').replace(/關/g,'关').replace(/送貨/g,'送货').replace(/客戶/g,'客户')
+                .replace(/產品/g,'产品').replace(/訂/g,'订').replace(/單/g,'单');
+        }
+        return 'Thanks for your message! We will get back to you shortly. You can ask about pricing, location, opening hours, or delivery.';
+    },
+
+    _generateReply(customerMessage, customerId) {
         const msg = (customerMessage || '').trim();
         if (!msg) return '您好！我收到您嘅訊息，請講多啲詳情，我幫您處理。';
-
-        // 維護上下文
-        if (!this.context[customerId]) this.context[customerId] = { history: [], lastTopic: null, lastProduct: null };
+        const lang = this.detectLang(msg);
+        if (!this.context[customerId]) this.context[customerId] = { history: [], lastTopic: null, lastProduct: null, lang: lang };
         const ctx = this.context[customerId];
         ctx.history.push(msg);
         if (ctx.history.length > 10) ctx.history.shift();
+        ctx.lang = lang;
 
         // 1. 先打分所有意圖，取最高分
         let bestIntent = null, bestScore = 0;

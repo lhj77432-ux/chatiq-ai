@@ -229,7 +229,7 @@
                         <option value="C">C級（一般）</option>
                         <option value="lead">潛在客戶</option>
                     </select>
-                    <button class="btn-primary btn-sm" onclick="exportCustomers()">匯出</button>
+                    <button class="btn-primary btn-sm" onclick="exportCustomers()">匯出 Word</button><button class="btn-secondary btn-sm" onclick="importData('customers')">匯入客戶</button><button class="btn-secondary btn-sm" onclick="exportAllJSON()">備份 JSON</button>
                 </div>
                 <div class="customer-grid" id="customerGrid"></div>
             </div>
@@ -255,7 +255,7 @@
                         <option value="completed">已完成</option>
                         <option value="cancelled">已取消</option>
                     </select>
-                    <span class="order-summary" id="orderSummary"></span>
+                    <span class="order-summary" id="orderSummary"></span><button class="btn-secondary btn-sm" onclick="exportOrdersCSV()">匯出 CSV</button>
                 </div>
                 <div class="table-container">
                     <table class="data-table">

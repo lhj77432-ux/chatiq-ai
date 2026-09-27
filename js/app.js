@@ -337,9 +337,25 @@ function closeModal(id) {
     document.getElementById(id).style.display = 'none';
 }
 
-function exportCustomers() {
-    showToast('客戶資料已匯出為 CSV');
+// ===== 匯出/匯入 =====
+function downloadFile(filename, content, mime) {
+    var blob = new Blob(['\uFEFF' + content], { type: mime });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
 }
+function exportCustomers() {
+    var rows = customers.map(function(c){return '<tr><td>'+c.id+'</td><td>'+c.name+'</td><td>'+c.phone+'</td><td>'+(c.grade||'')+'</td><td>HK$'+(c.totalSpent||0)+'</td><td>'+(c.orders||0)+'</td></tr>';}).join('');
+    var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head><body><h1>ChatIQ 客戶名單</h1><p>匯出：'+new Date().toLocaleString('zh-HK')+'</p><table border="1" cellpadding="6" style="border-collapse:collapse;font-family:sans-serif"><tr style="background:#f0f0f0"><th>ID</th><th>姓名</th><th>電話</th><th>等級</th><th>消費額</th><th>訂單數</th></tr>'+rows+'</table></body></html>';
+    downloadFile('客戶名單.doc', html, 'application/msword');
+    showToast('客戶名單已匯出為 Word 文件');
+}
+function exportOrdersCSV(){var csv='訂單編號,客戶,產品,金額,狀態,時間\n';orders.forEach(function(o){csv+=o.id+','+o.customerName+','+o.product+',HK$'+o.amount+','+o.status+','+o.time+'\n';});downloadFile('訂單記錄.csv',csv,'text/csv');showToast('訂單已匯出為 CSV');}
+function exportConversationsPDF(){var rows=conversations.map(function(c){var msgs=(c.messages||[]).map(function(m){return '<div><b>'+(m.from==='ai'?'AI':'客戶')+':</b> '+m.text+'</div>';}).join('');return '<tr><td>'+c.customerName+'</td><td>'+c.lastTime+'</td><td>'+msgs+'</td></tr>';}).join('');var html='<html><head><meta charset="utf-8"><style>body{font-family:sans-serif;padding:30px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ddd;padding:8px;vertical-align:top}th{background:#f5f5f5}</style></head><body><h1>對話記錄</h1><p>'+new Date().toLocaleString('zh-HK')+'</p><table><tr><th>客戶</th><th>時間</th><th>對話內容</th></tr>'+rows+'</table><p style="color:#666;font-size:12px">按 Ctrl+P 可列印或存為 PDF</p></body></html>';var w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(function(){w.print();},500);showToast('對話記錄已開啟，可存為 PDF');}
+function exportAllJSON(){var data={customers:customers,orders:orders,conversations:conversations,exportedAt:new Date().toISOString()};downloadFile('chatiq備份.json',JSON.stringify(data,null,2),'application/json');showToast('所有數據已備份');}
+function importData(type){var input=document.createElement('input');input.type='file';input.accept='.json,.csv,.txt';input.onchange=function(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){try{var text=ev.target.result.replace(/^\uFEFF/,'');if(file.name.endsWith('.json')){var data=JSON.parse(text);if(Array.isArray(data)){data.forEach(function(c){customers.push({id:'C'+Date.now()+Math.random(),name:c.name||'未命名',phone:c.phone||'',grade:c.grade||'B',totalSpent:c.totalSpent||0,orders:c.orders||0,ordersCount:c.ordersCount||0,location:c.location||'',lastContact:c.lastContact||'剛才',tags:c.tags||['新匯入'],timeline:[{time:'剛才',event:'從檔案匯入'}],aiInsight:'從外部檔案匯入的客戶',sentiment:'neutral'});});showToast('成功匯入 '+data.length+' 個客戶');renderCustomers();}}else{var lines=text.split('\n').filter(function(l){return l.trim();});lines.slice(1).forEach(function(line){var p=line.split(',');customers.push({id:'C'+Date.now()+Math.random(),name:p[0]||'未命名',phone:p[1]||'',grade:'B',totalSpent:0,orders:0,location:'',lastContact:'剛才',tags:['新匯入'],timeline:[{time:'剛才',event:'從CSV匯入'}],aiInsight:'從CSV匯入',sentiment:'neutral'});});showToast('成功匯入 '+(lines.length-1)+' 個客戶');renderCustomers();}}catch(err){showToast('匯入失敗：檔案格式錯誤');}};reader.readAsText(file,'utf-8');};input.click();}
 
 // ===== 訂單管理 =====
 function renderOrders() {
