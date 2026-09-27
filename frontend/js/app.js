@@ -728,7 +728,6 @@ function sendBroadcast() {
 }
 
 // ===== 快捷回覆 =====
-var quickReplies = ['您好！請問有咩可以幫到您？','多謝查詢！我幫您查下。','好嘅，我哋盡快安排。','多謝！歡迎隨時再搵我。'];
 function insertQuickReply(text) {
     document.getElementById('chatInput').value = text;
 }
