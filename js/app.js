@@ -233,6 +233,23 @@ function aiGenerateReply() {
 }
 
 var autoReplyOn = true;
+
+// 中央自動回覆：只要對話狀態是 ai 且最後一條是客戶發的，就自動回
+function autoReplyIfNeeded(conv) {
+    if (!conv || conv.status !== 'ai' || !autoReplyOn) return;
+    var lastMsg = conv.messages[conv.messages.length - 1];
+    if (!lastMsg || lastMsg.from !== 'customer') return;
+    // 快速回覆，800ms 內響應
+    setTimeout(async function() {
+        var ai = await AIEngine.generateReplyAsync(lastMsg.text, conv.customerId);
+        var t = new Date();
+        var tm = t.getHours().toString().padStart(2,'0')+':'+t.getMinutes().toString().padStart(2,'0');
+        conv.messages.push({from:'agent', text:ai, time:tm, tag:'AI'});
+        conv.lastMessage = ai; conv.lastTime = tm; conv.unread = 0;
+        if (currentConversation === conv.id) openConversation(conv.id);
+        renderChatList(); updateUnreadBadge(); saveData();
+    }, 800);
+}
 function sendMessage() {
     var input = document.getElementById('chatInput');
     var text = input.value.trim();
@@ -249,18 +266,8 @@ function sendMessage() {
         var r = replies[Math.floor(Math.random()*replies.length)];
         conv.messages.push({ from: 'customer', text: r, time: time });
         conv.lastMessage = r; openConversation(currentConversation); renderChatList(); saveData();
-        if (autoReplyOn) {
-            showToast('AI 自動回覆中...');
-            setTimeout(async function() {
-                var ai = await AIEngine.generateReplyAsync(r, conv.customerId);
-                var t2 = new Date();
-                var tm = t2.getHours().toString().padStart(2,'0')+':'+t2.getMinutes().toString().padStart(2,'0');
-                conv.messages.push({ from: 'agent', text: ai, time: tm, tag: 'AI' });
-                conv.lastMessage = ai; conv.lastTime = tm;
-                openConversation(currentConversation); renderChatList(); saveData();
-            }, 2000);
-        }
-    }, 1500);
+        autoReplyIfNeeded(conv);
+    }, 1000);
 }
 function simulateNewCustomer() {
     var samples = [
@@ -277,17 +284,7 @@ function simulateNewCustomer() {
     conversations.unshift(nc);
     renderChatList(); updateUnreadBadge(); saveData();
     showToast('新客戶 '+s.name+' 來訊，AI 自動回覆中...');
-    if (autoReplyOn) {
-        setTimeout(async function() {
-            var ai = await AIEngine.generateReplyAsync(s.msg, nc.customerId);
-            var t2 = new Date();
-            var tm = t2.getHours().toString().padStart(2,'0')+':'+t2.getMinutes().toString().padStart(2,'0');
-            nc.messages.push({from:'agent',text:ai,time:tm,tag:'AI'});
-            nc.lastMessage = ai; nc.lastTime = tm; nc.unread = 0;
-            renderChatList(); updateUnreadBadge(); saveData();
-            showToast('AI 已自動回覆 '+s.name);
-        }, 2500);
-    }
+    autoReplyIfNeeded(nc);
 }
 function toggleAutoReply() {
     autoReplyOn = !autoReplyOn;
@@ -307,6 +304,15 @@ function takeOver() {
     openConversation(currentConversation);
     renderChatList();
     showToast('已轉人工服務，AI 將暫停自動回覆');
+}
+function resumeAI() {
+    if (!currentConversation) return;
+    var conv = conversations.find(function(c) { return c.id === currentConversation; });
+    conv.status = 'ai';
+    openConversation(currentConversation);
+    renderChatList();
+    showToast('已恢復 AI 自動回覆');
+    autoReplyIfNeeded(conv);
 }
 
 function viewCustomerFromChat(customerId) {
