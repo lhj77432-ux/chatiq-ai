@@ -238,3 +238,26 @@ const trendData = {
     conversions: [28, 35, 30, 42, 55, 60, 48],
     revenue: [12000, 15800, 13500, 18200, 22000, 25400, 18500]
 };
+
+
+// 產品目錄
+const products = [
+    { id: 'P001', name: '手工咖啡杯', price: 128, stock: 45, category: '杯具', desc: '陶瓷手工拉坯，禮物首選', emoji: '☕' },
+    { id: 'P002', name: '不鏽鋼保溫壺', price: 380, stock: 28, category: '杯具', desc: '12小時保溫，304不鏽鋼', emoji: '🍶' },
+    { id: 'P003', name: '手工玻璃杯套裝', price: 260, stock: 15, category: '杯具', desc: '4隻裝，手吹玻璃', emoji: '🥃' },
+    { id: 'P004', name: '木製托盤', price: 199, stock: 32, category: '家居', desc: '胡桃木，茶具搭配', emoji: '🪵' },
+    { id: 'P005', name: '智能香薰機', price: 450, stock: 20, category: '家居', desc: '靜音定時，家居放鬆', emoji: '🕯️' },
+    { id: 'P006', name: '皮革錢包', price: 680, stock: 12, category: '配飾', desc: '頭層牛皮，手工縫製', emoji: '👛' }
+];
+
+// 快捷回覆模板
+const quickReplies = [
+    { id: 'q1', title: '歡迎語', text: '您好！歡迎光臨生活精品，有什麼可以幫到您？' },
+    { id: 'q2', title: '營業時間', text: '我們營業時間：星期一至六 10:00-20:00，星期日休息。門市在銅鑼灣恩平道28號2樓。' },
+    { id: 'q3', title: '送貨說明', text: '本地送貨1-2工作天，順豐智能櫃可選。滿HK$500免運費，否則HK$30。' },
+    { id: 'q4', title: '退換政策', text: '我們提供7日滿意保證，品質問題全額退貨，運費由我方承擔。' },
+    { id: 'q5', title: '新客優惠', text: '新客首單9折！滿HK$500免運費，買2件95折3件88折。' },
+    { id: 'q6', title: '付款方式', text: '接受 Visa/Mastercard/FPS轉數快/AlipayHK/WeChat Pay/PayPal/門市現金。' },
+    { id: 'q7', title: '感謝購買', text: '多謝您的購買！我們會盡快安排出貨，有任何問題隨時聯繫我們。' },
+    { id: 'q8', title: '跟進詢問', text: '您好，之前您咨詢的產品還有興趣嗎？現在有限時優惠，需要我為您詳細介紹嗎？' }
+];

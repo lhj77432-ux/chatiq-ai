@@ -51,7 +51,8 @@ function switchPage(page) {
         'orders': '訂單管理',
         'analytics': '數據分析',
         'ai-settings': 'AI 設定',
-        'broadcast': '營銷推廣'
+        'broadcast': '營銷推廣',
+    'products': '產品目錄'
     };
     document.getElementById('pageTitle').textContent = titles[page] || '';
 
@@ -63,6 +64,7 @@ function switchPage(page) {
     if (page === 'orders') renderOrders();
     if (page === 'analytics') initAnalytics();
     if (page === 'broadcast') renderBroadcastCount();
+    if (page === 'products') renderProducts();
 }
 
 function toggleSidebar() {
@@ -180,6 +182,8 @@ function filterChats() {
 }
 
 function openConversation(convId) {
+    var c = conversations.find(function(x) { return x.id === convId; });
+    if (c && c.status === 'human') { setTimeout(showAiAssist, 300); } else { var ap = document.getElementById('aiAssistPanel'); if (ap) ap.style.display = 'none'; }
     currentConversation = convId;
     var conv = conversations.find(function(c) { return c.id === convId; });
     if (!conv) return;
@@ -304,15 +308,27 @@ function takeOver() {
     openConversation(currentConversation);
     renderChatList();
     showToast('已轉人工服務，AI 將暫停自動回覆');
+    setTimeout(showAiAssist, 500);
 }
 function resumeAI() {
     if (!currentConversation) return;
     var conv = conversations.find(function(c) { return c.id === currentConversation; });
     conv.status = 'ai';
+    document.getElementById('aiAssistPanel').style.display = 'none';
     openConversation(currentConversation);
     renderChatList();
     showToast('已恢復 AI 自動回覆');
     autoReplyIfNeeded(conv);
+}
+
+function addInternalNote() {
+    if (!currentConversation) return;
+    var note = prompt('輸入內部備註（客戶看不到）：');
+    if (!note) return;
+    var conv = conversations.find(function(c) { return c.id === currentConversation; });
+    conv.internalNote = note;
+    showToast('內部備註已保存');
+    saveData();
 }
 
 function viewCustomerFromChat(customerId) {
@@ -715,4 +731,104 @@ function sendBroadcast() {
 var quickReplies = ['您好！請問有咩可以幫到您？','多謝查詢！我幫您查下。','好嘅，我哋盡快安排。','多謝！歡迎隨時再搵我。'];
 function insertQuickReply(text) {
     document.getElementById('chatInput').value = text;
+}
+
+// ===== 產品目錄 =====
+function renderProducts() {
+    var el = document.getElementById('productGrid');
+    if (!el) return;
+    el.innerHTML = products.map(function(p) {
+        return '<div class="customer-card" style="cursor:default;">' +
+            '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">' +
+            '<div style="width:48px;height:48px;background:var(--bg-secondary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;">' + p.emoji + '</div>' +
+            '<div style="flex:1;"><div style="font-weight:600;font-size:14px;">' + p.name + '</div>' +
+            '<div style="font-size:11px;color:var(--text-secondary);">' + p.category + '</div></div>' +
+            '<div style="text-align:right;"><div style="font-weight:700;color:#0071e3;">HK$' + p.price + '</div>' +
+            '<div style="font-size:10px;color:' + (p.stock<20?'#ff453a':'#30d158') + ';">庫存 ' + p.stock + '</div></div></div>' +
+            '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">' + p.desc + '</div>' +
+            '<button class="btn-secondary btn-sm" style="width:100%;" onclick="sendProductToChat(\'' + p.id + '\')">發送給客戶</button></div>';
+    }).join('');
+}
+
+function showAddProduct() {
+    var name = prompt('產品名稱？');
+    if (!name) return;
+    var price = parseInt(prompt('價格（HK$）？') || '0');
+    var desc = prompt('產品描述？') || '';
+    products.push({ id: 'P'+Date.now(), name: name, price: price, stock: 10, category: '其他', desc: desc, emoji: '📦' });
+    renderProducts();
+    showToast('產品已新增');
+}
+
+function sendProductToChat(productId) {
+    var p = products.find(function(x) { return x.id === productId; });
+    if (!p) return;
+    if (!currentConversation) { showToast('請先選擇一個對話'); switchPage('conversations'); return; }
+    var conv = conversations.find(function(c) { return c.id === currentConversation; });
+    var now = new Date();
+    var time = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    var card = p.emoji + ' ' + p.name + '\n價格：HK$' + p.price + '\n' + p.desc + '\n庫存：' + p.stock + '件';
+    conv.messages.push({ from: 'agent', text: card, time: time, tag: '產品' });
+    conv.lastMessage = p.name; conv.lastTime = time;
+    openConversation(currentConversation); renderChatList(); saveData();
+    showToast('產品卡片已發送');
+    switchPage('conversations');
+}
+
+// ===== 快捷回覆 =====
+function toggleQuickReplies() {
+    var panel = document.getElementById('quickReplyPanel');
+    if (panel.style.display === 'flex') {
+        panel.style.display = 'none';
+    } else {
+        panel.style.display = 'flex';
+        panel.innerHTML = quickReplies.map(function(q) {
+            return '<button class="btn-secondary btn-sm" style="font-size:11px;" onclick="useQuickReply(\'' + q.id + '\')" title="' + q.text.replace(/"/g,'&quot;') + '">' + q.title + '</button>';
+        }).join('');
+    }
+}
+
+function useQuickReply(qid) {
+    var q = quickReplies.find(function(x) { return x.id === qid; });
+    if (!q) return;
+    document.getElementById('chatInput').value = q.text;
+    document.getElementById('quickReplyPanel').style.display = 'none';
+}
+
+// ===== AI 輔助建議（人工模式） =====
+function showAiAssist() {
+    if (!currentConversation) return;
+    var conv = conversations.find(function(c) { return c.id === currentConversation; });
+    if (!conv || conv.status !== 'human') return;
+    var lastCustomerMsg = null;
+    for (var i = conv.messages.length - 1; i >= 0; i--) {
+        if (conv.messages[i].from === 'customer') { lastCustomerMsg = conv.messages[i]; break; }
+    }
+    if (!lastCustomerMsg) return;
+    var panel = document.getElementById('aiAssistPanel');
+    panel.style.display = 'block';
+    document.getElementById('aiAssistText').textContent = 'AI 正在構建回覆...';
+    AIEngine.generateReplyAsync(lastCustomerMsg.text, conv.customerId).then(function(reply) {
+        document.getElementById('aiAssistText').textContent = reply;
+    });
+}
+
+function useAiAssist() {
+    var text = document.getElementById('aiAssistText').textContent;
+    if (text && text !== 'AI 正在構建回覆...') {
+        document.getElementById('chatInput').value = text;
+        document.getElementById('aiAssistPanel').style.display = 'none';
+    }
+}
+
+// ===== 滿意度評價 =====
+function sendCsat() {
+    if (!currentConversation) return;
+    var conv = conversations.find(function(c) { return c.id === currentConversation; });
+    var now = new Date();
+    var time = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    conv.messages.push({ from: 'agent', text: '感謝您的咨詢！請為本次服務評分：\n⭐⭐⭐⭐⭐ 非常滿意\n⭐⭐⭐⭐ 滿意\n⭐⭐⭐ 一般\n⭐⭐ 不滿意\n⭐ 非常不滿意', time: time, tag: '評價' });
+    conv.lastMessage = '請為服務評分'; conv.lastTime = time;
+    openConversation(currentConversation); renderChatList(); saveData();
+    showToast('已發送滿意度調查');
 }
